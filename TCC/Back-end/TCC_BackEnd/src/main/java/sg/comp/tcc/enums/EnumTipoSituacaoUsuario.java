@@ -5,14 +5,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum EnumReceitaDespesa {
-	RECEITA ("R", "Receita"),
-	DESPESA ("D", "Despesa");
+public enum EnumTipoSituacaoUsuario {
+	ATIVO("A","Ativo"),
+	INATIVO("I","Inativo"),
+	PENDENTE("P","Pendente");
 	
 	private String codigo;
 	private String descricao;
 	
-	private EnumReceitaDespesa(String codigo, String descricao) {
+	private EnumTipoSituacaoUsuario(String codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
@@ -35,11 +36,13 @@ public enum EnumReceitaDespesa {
 	}
 	
 	@JsonCreator
-	public static EnumReceitaDespesa doValor(String codigo) {
-		if(codigo.equals("R")) {
-			return RECEITA;
-		}else if(codigo.equals("D")) {
-			return DESPESA;
+	public static EnumTipoSituacaoUsuario doValor(String codigo) {
+		if(codigo.equals("A")) {
+			return ATIVO;
+		}else if(codigo.equals("I")) {
+			return INATIVO;
+		}else if(codigo.equals("P")) {
+			return PENDENTE;
 		}else {
 			return null;
 		}

@@ -4,6 +4,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import sg.comp.tcc.entity.SaldoMensal;
+import sg.comp.tcc.enums.EnumTipoSituacaoUsuario;
 
 public class UsuarioRequestDTO {
 	@Id
@@ -15,6 +16,7 @@ public class UsuarioRequestDTO {
 	private String email;
 	@NotBlank
 	private String senha; 
+	private EnumTipoSituacaoUsuario situacao;
 	private SaldoMensal saldoMensal;
 	
 	
@@ -53,6 +55,12 @@ public class UsuarioRequestDTO {
 	}
 	public void setSaldoMensal(SaldoMensal saldoMensal) {
 		this.saldoMensal = saldoMensal;
+	}
+	public EnumTipoSituacaoUsuario getSituacao() {
+		return situacao;
+	}
+	public void setSituacao(EnumTipoSituacaoUsuario situacao) {
+		this.situacao = situacao;
 	}
 	
 	

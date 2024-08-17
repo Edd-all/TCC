@@ -2,7 +2,10 @@ package sg.comp.tcc.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,10 +18,13 @@ public class LancamentoFinanceiro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
+	private String nome; //descricao
 	private Double valor;
 	private LocalDate dataCriacao;
-	private Boolean efetivada; 								// ou o lançamento ocorreu ou não
+	private Boolean efetivada; 	// ou o lançamento ocorreu ou não
+	
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private EnumReceitaDespesa tipo; 						//receita ou despesa
 	
 	@ManyToOne

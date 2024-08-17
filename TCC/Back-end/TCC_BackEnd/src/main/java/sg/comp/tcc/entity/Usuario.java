@@ -5,7 +5,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import sg.comp.tcc.enums.EnumTipoSituacaoUsuario;
 
 @Entity
 @Table(name = "usuario")
@@ -22,14 +26,23 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String nome;
+	
+	@Column(nullable = false, unique = true)
 	private String login; //username
+	
+	@Column(nullable = false, unique = true)
 	private String email;
+	
+	@Column(nullable = false)
 	private String senha; 
 	
 	
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "saldoMensal_id")
+	@JoinColumn(name = "saldoMensal_id", referencedColumnName = "id")
 	private SaldoMensal saldoMensal;
 	
 	@JsonIgnore
@@ -40,10 +53,12 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario")
 	private List<LancamentoFinanceiro> lancamentoFinanceiro;
 	
-	
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private EnumTipoSituacaoUsuario situacao;
 	
 	public Usuario(String nome, String login, String email, String senha, SaldoMensal saldoMensal, 
-			List<MetasFuturas> metas, List<LancamentoFinanceiro> lancamentoFinanceiro) {
+			EnumTipoSituacaoUsuario situacao,List<MetasFuturas> metas, List<LancamentoFinanceiro> lancamentoFinanceiro) {
 		super();
 		this.nome = nome;
 		this.login = login;
@@ -52,6 +67,7 @@ public class Usuario {
 		this.saldoMensal = saldoMensal;
 		this.metas = metas;
 		this.lancamentoFinanceiro = lancamentoFinanceiro;
+		this.situacao = situacao;
 	}
 
 	public Usuario() {
@@ -126,6 +142,14 @@ public class Usuario {
 		this.lancamentoFinanceiro = lancamentoFinanceiro;
 	}
 
+	public EnumTipoSituacaoUsuario getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(EnumTipoSituacaoUsuario situacao) {
+		this.situacao = situacao;
+	}
+	
 	
 	
 }

@@ -2,6 +2,7 @@ package sg.comp.tcc.dto;
 
 import sg.comp.tcc.entity.SaldoMensal;
 import sg.comp.tcc.entity.Usuario;
+import sg.comp.tcc.enums.EnumTipoSituacaoUsuario;
 
 public class UsuarioResponseDTO {
 	private Long id;
@@ -9,6 +10,7 @@ public class UsuarioResponseDTO {
 	private String login;
 	private String email;
 	private String senha; 
+	private EnumTipoSituacaoUsuario situacao;
 	private SaldoMensal saldoMensal;
 	
 	public UsuarioResponseDTO() {
@@ -22,6 +24,7 @@ public class UsuarioResponseDTO {
 		this.email = usuario.getEmail();
 		this.senha = usuario.getSenha();
 		this.saldoMensal = usuario.getSaldoMensal();
+		this.situacao = usuario.getSituacao();
 	}
 
 	public Long getId() {
@@ -69,6 +72,22 @@ public class UsuarioResponseDTO {
 	}
 
 	public void setSaldo(SaldoMensal saldoMensal) {
+		this.saldoMensal = saldoMensal;
+	}
+
+	public EnumTipoSituacaoUsuario getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(EnumTipoSituacaoUsuario situacao) {
+		this.situacao = situacao;
+	}
+
+	public SaldoMensal getSaldoMensal() {
+		return saldoMensal;
+	}
+
+	public void setSaldoMensal(SaldoMensal saldoMensal) {
 		this.saldoMensal = saldoMensal;
 	}
 	
