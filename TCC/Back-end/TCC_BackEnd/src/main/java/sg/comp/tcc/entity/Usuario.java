@@ -20,7 +20,6 @@ import sg.comp.tcc.enums.EnumTipoSituacaoUsuario;
 
 @Entity
 @Table(name = "usuario")
-
 public class Usuario {
 	
 	@Id
