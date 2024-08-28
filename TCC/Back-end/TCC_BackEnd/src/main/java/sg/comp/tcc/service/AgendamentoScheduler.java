@@ -12,7 +12,7 @@ public class AgendamentoScheduler {
     @Autowired
     private LancamentoFincanceiroService lancamentoService;
 
-    @Scheduled(cron = "0 8 0 * * ?")
+    @Scheduled(cron = "0 52 0 * * ?")
     public void run() {
     	System.out.println("executou");
         lancamentoService.executaAgendamentos(LocalDate.now());

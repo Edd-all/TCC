@@ -3,6 +3,7 @@ package sg.comp.tcc.dto;
 import java.time.LocalDate;
 
 import sg.comp.tcc.entity.Agendamento;
+import sg.comp.tcc.entity.LancamentoFinanceiro;
 import sg.comp.tcc.enums.EnumReceitaDespesa;
 import sg.comp.tcc.enums.EnumTipoAgendamento;
 
@@ -19,6 +20,8 @@ public class AgendamentoResponseDTO {
 	LocalDate data; //dia especifico
 	String diaSemana = "Indefinido";
 	int diaMes;
+	
+	LancamentoFinanceiro lancamento;
 	
 	public AgendamentoResponseDTO() {
 
@@ -38,6 +41,7 @@ public class AgendamentoResponseDTO {
 		}
 		
 		this.diaMes = agendamento.getDiaMes();
+		this.lancamento = agendamento.getLancamentoFinanceiro();
 	}
 
 	public Long getId() {
@@ -102,6 +106,14 @@ public class AgendamentoResponseDTO {
 
 	public void setDiaMes(int diaMes) {
 		this.diaMes = diaMes;
+	}
+
+	public LancamentoFinanceiro getLancamento() {
+		return lancamento;
+	}
+
+	public void setLancamento(LancamentoFinanceiro lancamento) {
+		this.lancamento = lancamento;
 	}
 	
 	

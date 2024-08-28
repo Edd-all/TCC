@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -50,7 +49,7 @@ public class AgendamentoController {
 	}
 	
 	@GetMapping("/listarPorTipoLancamento/{tipoLancamento}")
-	public ResponseEntity<Agendamento> buscarPorTipoLancamento(@RequestParam EnumReceitaDespesa tipoLancamento){
+	public ResponseEntity<Agendamento> buscarPorTipoLancamento(@PathVariable EnumReceitaDespesa tipoLancamento){
 		Agendamento agendamento = service.buscarPorTipoLancamento(tipoLancamento);
 		if(agendamento == null) {
 			return ResponseEntity.notFound().build();
@@ -60,7 +59,7 @@ public class AgendamentoController {
 	}
 	
 	@GetMapping("/listarPorData/{data}")
-	public ResponseEntity<List<Agendamento>> buscarPorData(@RequestParam LocalDate data){
+	public ResponseEntity<List<Agendamento>> buscarPorData(@PathVariable LocalDate data){
 		List<Agendamento>  agendamento = service.buscarPorData(data);
 		
 		if(agendamento == null) {
@@ -71,17 +70,17 @@ public class AgendamentoController {
 	}
 	
 	@GetMapping("/listarPorDiaSemana/{diaSemana}")
-	public ResponseEntity<List<Agendamento>> buscarPorDiaSemana(@RequestParam EnumDiaSemana diaSemana){
+	public ResponseEntity<List<AgendamentoResponseDTO>> buscarPorDiaSemana(@PathVariable EnumDiaSemana diaSemana){
 		List<Agendamento> agendamento = service.buscarPorDiaSemana(diaSemana);
 		if(agendamento == null) {
 			return ResponseEntity.notFound().build();
 		}else {
-			return ResponseEntity.ok(agendamento);
+			return ResponseEntity.ok(agendamento.stream().map((a) -> new AgendamentoResponseDTO(a)).collect(Collectors.toList()));
 		}
 	}
 	
 	@GetMapping("/listarPorDiaMes/{diaMes}")
-	public ResponseEntity<List<Agendamento>> buscarPorDiaMes(@RequestParam int diaMes){
+	public ResponseEntity<List<Agendamento>> buscarPorDiaMes(@PathVariable int diaMes){
 		List<Agendamento> agendamento = service.buscarPorDiaMes(diaMes);
 		if(agendamento == null) {
 			return ResponseEntity.notFound().build();

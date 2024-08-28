@@ -49,7 +49,7 @@ public class AgendamentoService {
 		return repository.findByDiaMes(diaMes);
 	}
 	
-	
+	//lembrar de retornar agendamento response em todos os metodos
 	public AgendamentoResponseDTO inserirAgendamento(AgendamentoRequestDTO agendamentoRequest) {
 		Agendamento agendamento = new Agendamento(agendamentoRequest);
 		LancamentoFinanceiro lancamento = lancamentoRepository.findById(agendamentoRequest.getLancamentoFinanceiro()).orElseThrow(()->new  RuntimeException("Lancamento não encontrado!"));
