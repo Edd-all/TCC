@@ -3,7 +3,6 @@ package sg.comp.tcc.dto;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import sg.comp.tcc.entity.SaldoMensal;
 import sg.comp.tcc.enums.EnumTipoSituacaoUsuario;
 
 public class UsuarioRequestDTO {
@@ -17,7 +16,7 @@ public class UsuarioRequestDTO {
 	@NotBlank
 	private String senha; 
 	private EnumTipoSituacaoUsuario situacao;
-	private SaldoMensal saldoMensal;
+	
 	
 	
 	public Long getId() {
@@ -50,12 +49,7 @@ public class UsuarioRequestDTO {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public SaldoMensal getSaldoMensal() {
-		return saldoMensal;
-	}
-	public void setSaldoMensal(SaldoMensal saldoMensal) {
-		this.saldoMensal = saldoMensal;
-	}
+	
 	public EnumTipoSituacaoUsuario getSituacao() {
 		return situacao;
 	}

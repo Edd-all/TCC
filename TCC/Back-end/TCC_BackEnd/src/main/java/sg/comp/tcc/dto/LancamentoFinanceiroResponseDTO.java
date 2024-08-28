@@ -10,8 +10,7 @@ public class LancamentoFinanceiroResponseDTO {
 	private Long id;
 	private String nome;
 	private Double valor;
-	private LocalDate dataCriacao;
-	private Boolean efetivada; 								
+	private LocalDate dataCriacao;							
 	private EnumReceitaDespesa tipo; 						
 	private Usuario usuario;
 	
@@ -24,7 +23,6 @@ public class LancamentoFinanceiroResponseDTO {
 		this.nome = lancamentoFinanceiro.getNome();
 		this.valor = lancamentoFinanceiro.getValor();
 		this.dataCriacao = lancamentoFinanceiro.getDataCriacao();
-		this.efetivada = lancamentoFinanceiro.getEfetivada();
 		this.tipo = lancamentoFinanceiro.getTipo();
 		this.usuario = lancamentoFinanceiro.getUsuario();
 	}
@@ -59,14 +57,6 @@ public class LancamentoFinanceiroResponseDTO {
 
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
-	}
-
-	public Boolean getEfetivada() {
-		return efetivada;
-	}
-
-	public void setEfetivada(Boolean efetivada) {
-		this.efetivada = efetivada;
 	}
 
 	public EnumReceitaDespesa getTipo() {

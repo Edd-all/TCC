@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,9 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import sg.comp.tcc.enums.EnumTipoSituacaoUsuario;
 
@@ -40,9 +37,8 @@ public class Usuario {
 	
 	
 	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "saldoMensal_id", referencedColumnName = "id")
-	private SaldoMensal saldoMensal;
+	@OneToMany(mappedBy = "usuario")
+	private List<SaldoMensal> saldoMensal;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "usuario")
@@ -56,7 +52,7 @@ public class Usuario {
 	@Enumerated(EnumType.STRING)
 	private EnumTipoSituacaoUsuario situacao;
 	
-	public Usuario(String nome, String login, String email, String senha, SaldoMensal saldoMensal, 
+	public Usuario(String nome, String login, String email, String senha, List<SaldoMensal> saldoMensal, 
 			EnumTipoSituacaoUsuario situacao,List<MetasFuturas> metas, List<LancamentoFinanceiro> lancamentoFinanceiro) {
 		super();
 		this.nome = nome;
@@ -115,15 +111,14 @@ public class Usuario {
 
 	
 	
-	public SaldoMensal getSaldoMensal() {
+	public List<SaldoMensal> getSaldoMensal() {
 		return saldoMensal;
 	}
 
-	public void setSaldoMensal(SaldoMensal saldoMensal) {
+	public void setSaldoMensal(List<SaldoMensal> saldoMensal) {
 		this.saldoMensal = saldoMensal;
 	}
 
-	
 	
 	public List<MetasFuturas> getMetas() {
 		return metas;

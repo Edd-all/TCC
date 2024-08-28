@@ -21,23 +21,22 @@ public class LancamentoFinanceiro {
 	private String nome; //descricao
 	private Double valor;
 	private LocalDate dataCriacao;
-	private Boolean efetivada; 	// ou o lançamento ocorreu ou não
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private EnumReceitaDespesa tipo; 						//receita ou despesa
+	private EnumReceitaDespesa tipo; 		//receita ou despesa
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
+	
 		
-	public LancamentoFinanceiro(String nome, Double valor, LocalDate dataCriacao, Boolean efetivada, 
+	public LancamentoFinanceiro(String nome, Double valor, LocalDate dataCriacao,
 			EnumReceitaDespesa tipo, Usuario usuario) {
 		super();
 		this.nome = nome;
 		this.valor = valor;
 		this.dataCriacao = dataCriacao;
-		this.efetivada = efetivada;
 		this.tipo = tipo;
 		this.usuario = usuario;
 	}
@@ -68,12 +67,7 @@ public class LancamentoFinanceiro {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	public Boolean getEfetivada() {
-		return efetivada;
-	}
-	public void setEfetivada(Boolean efetivada) {
-		this.efetivada = efetivada;
-	}
+	
 	
 	
 	public EnumReceitaDespesa getTipo() {

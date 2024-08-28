@@ -12,8 +12,7 @@ public class LancamentoFinanceiroRequestDTO {
 	@NotBlank
 	private String nome;
 	private Double valor;
-	private LocalDate dataCriacao;
-	private Boolean efetivada; 								
+	private LocalDate dataCriacao;					
 	private EnumReceitaDespesa tipo; 						
 	private Long usuario;
 	
@@ -41,12 +40,6 @@ public class LancamentoFinanceiroRequestDTO {
 	}
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
-	}
-	public Boolean getEfetivada() {
-		return efetivada;
-	}
-	public void setEfetivada(Boolean efetivada) {
-		this.efetivada = efetivada;
 	}
 	public EnumReceitaDespesa getTipo() {
 		return tipo;

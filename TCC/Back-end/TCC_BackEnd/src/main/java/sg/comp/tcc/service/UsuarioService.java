@@ -32,6 +32,7 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioVerificadorRepository usuarioVerificadorRepository; 
 	
+	
 	public List<Usuario> listarUsuario(){
 		return repository.findAll();
 	}
@@ -52,6 +53,7 @@ public class UsuarioService {
 	public UsuarioResponseDTO atualizarUsuario(Long id, Usuario usuario) {
 		Usuario u = repository.findById(id).orElse(null);
 		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		
 		if(u == null) {
 			throw new NoSuchElementException("Não foi possível achar o Usuario");
 		}
