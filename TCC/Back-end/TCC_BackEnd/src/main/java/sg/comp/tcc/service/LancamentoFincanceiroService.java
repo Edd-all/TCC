@@ -137,7 +137,7 @@ public class LancamentoFincanceiroService {
 
 	    // Executa agendamentos para o dia do mês
 	    for (Agendamento agendamento : agendamentosDiaMes) {
-	    	
+	    	agendamento.setData(LocalDate.now());
 	        LancamentoFinanceiro lancamento = new LancamentoFinanceiro(
 	            agendamento.getDescricao(),
 	            agendamento.getValor(),

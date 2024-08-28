@@ -17,7 +17,7 @@ public class AgendamentoResponseDTO {
 	Double valor;
 	
 	LocalDate data; //dia especifico
-	String diaSemana;
+	String diaSemana = "Indefinido";
 	int diaMes;
 	
 	public AgendamentoResponseDTO() {
