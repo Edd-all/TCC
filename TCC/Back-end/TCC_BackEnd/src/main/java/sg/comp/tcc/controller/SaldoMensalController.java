@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import sg.comp.tcc.dto.SaldoMensalRequestDTO;
 import sg.comp.tcc.dto.SaldoMensalResponseDTO;
+import sg.comp.tcc.entity.Usuario;
 import sg.comp.tcc.service.SaldoMensalService;
+import sg.comp.tcc.service.UsuarioService;
 
 @RestController
 @RequestMapping("/saldoMensal")
@@ -24,6 +27,9 @@ public class SaldoMensalController {
 	
 	@Autowired
 	private SaldoMensalService service;
+	
+	@Autowired
+    private UsuarioService usuarioService;
 	
 	@GetMapping("/listar")
 	public List<SaldoMensalResponseDTO> listarSaldosMensais(){
@@ -49,4 +55,14 @@ public class SaldoMensalController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@GetMapping("/calcular")
+    public ResponseEntity<String> calcularSaldoMensal(@RequestParam Long usuarioId) {
+        Usuario usuario = usuarioService.buscarPorId(usuarioId);
+        if (usuario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        String mensagem = service.calcularSaldoMensal(usuario);
+        return ResponseEntity.ok(mensagem);
+    }
+	 
 }

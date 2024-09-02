@@ -20,7 +20,7 @@ public class LancamentoFinanceiro {
 	private Long id;
 	private String nome; //descricao
 	private Double valor;
-	private LocalDate dataCriacao;
+	private LocalDate dataCriacao = LocalDate.now();
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -36,13 +36,14 @@ public class LancamentoFinanceiro {
 		super();
 		this.nome = nome;
 		this.valor = valor;
-		this.dataCriacao = dataCriacao;
+		this.dataCriacao = (dataCriacao != null) ? dataCriacao : LocalDate.now();
 		this.tipo = tipo;
 		this.usuario = usuario;
 	}
 	public LancamentoFinanceiro() {
 		
 	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -56,7 +57,10 @@ public class LancamentoFinanceiro {
 		this.nome = nome;
 	}
 	public Double getValor() {
-		return valor;
+		if (this.tipo == EnumReceitaDespesa.DESPESA) {
+            return -Math.abs(this.valor); // Garante que o valor seja negativo
+        }
+        return Math.abs(this.valor); // Garante que o valor seja positivo para receitas
 	}
 	public void setValor(Double valor) {
 		this.valor = valor;

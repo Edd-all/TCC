@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import sg.comp.tcc.dto.SaldoMensalRequestDTO;
 import sg.comp.tcc.dto.SaldoMensalResponseDTO;
+import sg.comp.tcc.entity.LancamentoFinanceiro;
 import sg.comp.tcc.entity.SaldoMensal;
 import sg.comp.tcc.entity.Usuario;
+import sg.comp.tcc.repository.LancamentoFinanceiroRepository;
 import sg.comp.tcc.repository.SaldoMensalRepository;
 
 @Service
@@ -63,4 +65,25 @@ public class SaldoMensalService {
 			throw new NoSuchElementException("Saldo não encontrado!");
 		}
 	}
+	
+	
+	 @Autowired
+	    private LancamentoFinanceiroRepository lancamentoFinanceiroRepository;
+	 
+	 public String calcularSaldoMensal(Usuario usuario) {
+	        // Buscar todos os lançamentos financeiros do usuário
+	        List<LancamentoFinanceiro> lancamentos = lancamentoFinanceiroRepository.findByUsuario(usuario);
+
+	        // Criar uma instância de SaldoMensal
+	        SaldoMensal saldoMensal = new SaldoMensal();
+	        saldoMensal.setUsuario(usuario);
+	        saldoMensal.setLancamentosFinanceiros(lancamentos);
+
+	        // Calcular o saldo e salvar no repositório
+	        String mensagem = saldoMensal.calcularSaldoMensal();
+	        repository.save(saldoMensal);
+
+	        return mensagem;
+	    }
+	 
 }
