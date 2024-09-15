@@ -19,7 +19,8 @@ import sg.comp.tcc.service.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+//sujeito a mudança de porta
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 	
 	@Autowired

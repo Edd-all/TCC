@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-//nota: coloquei o nome sem pensar, saldoTotal fsaria muito mais sentido
+//nota: coloquei o nome sem pensar, SaldoTotal ou SaldoData faria muito mais sentido
 //TODO: trocar nome para SaldoTotal
 
 @Entity
@@ -22,7 +22,7 @@ public class SaldoMensal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Double valor;
-	private LocalDate diaDoMes = LocalDate.now(); 
+	private LocalDate diaDoMes = LocalDate.now(); //data em que o usuario tinha um saldo especifico
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
