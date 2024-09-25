@@ -1,11 +1,9 @@
-import { Botao } from '../../components/Botao'
-import { Title } from './styles'
+import { Navbar } from '../../components/Navbar'
 
 export function Home(){
     return(
         <div>
-            <Title>Home</Title>
-            <Botao/>
+            <Navbar/>
         </div>
     )
 }
