@@ -1,0 +1,26 @@
+/* Certifique-se de que a página ocupe 100% da altura da viewport */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Faz a página ocupar a altura total da janela */
+}
+
+main {
+    flex: 1; /* Faz o conteúdo expandir para ocupar o espaço disponível */
+}
+
+.footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}

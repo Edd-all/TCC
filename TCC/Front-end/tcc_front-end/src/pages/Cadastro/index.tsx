@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './style.css';
 
+
 export function Cadastro() {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
@@ -13,7 +14,6 @@ export function Cadastro() {
     };
 
     return (
-        
         <div className="cadastro-container">
             <h2>Cadastro</h2>
             <form onSubmit={handleSubmit} className="cadastro-form">
@@ -47,5 +47,6 @@ export function Cadastro() {
                 <button type="submit" className="cadastro-btn">Cadastrar</button>
             </form>
         </div>
+        
     );
 }
