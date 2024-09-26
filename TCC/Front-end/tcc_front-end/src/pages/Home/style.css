@@ -1,3 +1,48 @@
-.min-height{
-    min-height: 75%;
+/* Estilos globais */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
 }
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupar 100% da altura da viewport */
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    padding: 2em;
+    justify-content: space-between; /* Espaço entre a descrição e a imagem */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.description {
+    max-width: 50%; /* A descrição ocupa metade da tela */
+}
+
+.description h1 {
+    font-size: 2.5em;
+    color: #333;
+}
+
+.description p {
+    font-size: 1.2em;
+    color: #555;
+    line-height: 1.6;
+}
+
+.image-container {
+    max-width: 45%;
+}
+
+.image-container img {
+    width: 100%; /* A imagem ocupará todo o espaço disponível */
+    max-height: 400px;
+    object-fit: cover; /* Ajusta a imagem sem distorção */
+}
+
+/* Footer e Navbar já foram estilizados anteriormente */
