@@ -10,7 +10,7 @@ export function Home(){
         <Navbar />
         <div className="content">
             <div className="description">
-                <h1>Bem vindo ao Financial Insights</h1>
+                <h1>Bem vindo a Financial Insights</h1>
                 <p>
                     Somos uma plataforma de organização financeira pessoal para ajudar você com a visibilidade e controle dos seus gastos.
                 </p>
