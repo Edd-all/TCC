@@ -1,0 +1,61 @@
+.ativacao-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Centraliza verticalmente */
+    background-color: #f4f4f4; /* Cor de fundo suave */
+    padding: 20px;
+}
+
+.ativacao-container h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333; /* Cor do texto */
+}
+
+.ativacao-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Largura do formulário */
+}
+
+.ativacao-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555; /* Cor do texto do label */
+}
+
+.ativacao-form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Bordas do input */
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 1rem;
+}
+
+.ativacao-btn {
+    padding: 10px;
+    background-color: #28a745; /* Cor do botão */
+    color: white; /* Cor do texto do botão */
+    border: none;
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 1rem;
+    cursor: pointer; /* Mão ao passar o mouse */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.ativacao-btn:hover {
+    background-color: #218838; /* Cor do botão ao passar o mouse */
+}
+
+@media (max-width: 600px) {
+    .ativacao-container {
+        width: 100%; /* Largura total em telas pequenas */
+        padding: 10px;
+    }
+
+    .ativacao-form {
+        width: 100%; /* Largura total do formulário em telas pequenas */
+    }
+}

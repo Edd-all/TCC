@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { postLogin } from '../../api/auth';  // Assumindo que o postLogin está aqui
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
     const [username, setUsername] = useState('');
     const [senha, setSenha] = useState('');
+    const navigate = useNavigate(); // Inicializa o useNavigate
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -16,6 +18,7 @@ export function Login() {
             };
             const response = await postLogin(loginData);
             console.log('Login efetuado com sucesso:', response);
+            navigate('/');// Navega para outra página
         } catch (error) {
             console.error('Erro no login:', error);
         }

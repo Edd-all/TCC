@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { postCadastro } from '../../api/usuarios.tsx';  // Importa a função postCadastro
+import { postCadastro } from '../../api/usuarios';  // Importa a função postCadastro
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 
 export function Cadastro() {
     const [nome, setNome] = useState('');
@@ -9,6 +10,7 @@ export function Cadastro() {
     const [login, setLogin] = useState('');  // Adicionando o campo login
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
+    const navigate = useNavigate(); // Inicializa o useNavigate
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -21,10 +23,14 @@ export function Cadastro() {
         };
 
         try {
-            await postCadastro(usuarioData);  // Faz a requisição para cadastrar o usuário
+            // Faz a requisição para cadastrar o usuário
+            await postCadastro(usuarioData);  
+            // Se a requisição for bem-sucedida, redireciona
             setSuccess(true);
             setError(null);
-        } catch {
+            navigate('/ativacao'); // Redireciona para a página de ativação
+        } catch (err) {
+            console.error(err); // Log do erro para depuração
             setError("Erro ao cadastrar. Tente novamente.");
             setSuccess(false);
         }

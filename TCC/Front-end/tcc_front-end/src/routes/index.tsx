@@ -6,6 +6,7 @@ import {Login} from "../pages/Login";
 import { LancamentosFinanceiros } from "../pages/LancamentosFinanceiros";
 import { MetasFuturas } from "../pages/MetasFuturas";
 import { Estatisticas } from "../pages/Estatisticas";
+import { Ativacao } from '../pages/Ativacao';
 
 export const AppRoutes = () => {
     return(
@@ -17,6 +18,7 @@ export const AppRoutes = () => {
                 <Route path="/lancamentosFinanceiros" element={<LancamentosFinanceiros/>}/>
                 <Route path="/metasFuturas" element={<MetasFuturas/>}/>
                 <Route path="/estatisticas" element={<Estatisticas/>}/>
+                <Route path="/ativacao" element={<Ativacao/>}/>
             </Routes>
         </Router>
 
