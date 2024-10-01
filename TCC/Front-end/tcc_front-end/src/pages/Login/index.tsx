@@ -1,27 +1,37 @@
 import React, { useState } from 'react';
+import { postLogin } from '../../api/auth';  // Assumindo que o postLogin está aqui
 import './style.css';
 
 export function Login() {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [senha, setSenha] = useState('');
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        // Aqui você pode fazer a chamada para o backend para autenticar
-        console.log({ email, senha });
+
+        try {
+            const loginData = {
+                username,  // Enviar o username
+                password: senha,  // E a senha
+            };
+            const response = await postLogin(loginData);
+            console.log('Login efetuado com sucesso:', response);
+        } catch (error) {
+            console.error('Erro no login:', error);
+        }
     };
 
     return (
         <div className="login-container">
             <h2>Login</h2>
             <form onSubmit={handleSubmit} className="login-form">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="username">Username</label>
                 <input 
-                    type="email" 
-                    id="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    placeholder="Digite seu email"
+                    type="text" 
+                    id="username" 
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                    placeholder="Digite seu username"
                 />
 
                 <label htmlFor="senha">Senha</label>
