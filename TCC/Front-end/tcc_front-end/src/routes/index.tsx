@@ -14,11 +14,12 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/cadastro" element={<Cadastro/>}/>
+                <Route path="/ativacao" element={<Ativacao/>}/>
                 <Route path="/login" element={<Login/>}/>
+
                 <Route path="/lancamentosFinanceiros" element={<LancamentosFinanceiros/>}/>
                 <Route path="/metasFuturas" element={<MetasFuturas/>}/>
                 <Route path="/estatisticas" element={<Estatisticas/>}/>
-                <Route path="/ativacao" element={<Ativacao/>}/>
             </Routes>
         </Router>
 

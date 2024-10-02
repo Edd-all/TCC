@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { postLogin } from '../../api/auth';  // Assumindo que o postLogin está aqui
+import { postLogin } from '../../api/auth'; 
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,8 +17,8 @@ export function Login() {
                 password: senha,  // E a senha
             };
             const response = await postLogin(loginData);
-            console.log('Login efetuado com sucesso:', response);
-            navigate('/');// Navega para outra página
+            console.log('Resposta do servidor:', response);
+            navigate('/');// Navega para a home
         } catch (error) {
             console.error('Erro no login:', error);
         }

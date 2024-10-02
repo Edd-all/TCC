@@ -49,7 +49,7 @@ public class JwtUtils {
 			return true;
 			
 		}catch(MalformedJwtException e) {
-			System.out.println("Token inválido!" + e.getMessage());
+			//System.out.println("Token inválido!" + e.getMessage()); //comentado pois estava sendo chamado com o token funcional
 		}catch(ExpiredJwtException e) {
 			System.out.println("Token Expirado!" + e.getMessage());
 		}catch(UnsupportedJwtException e) {
