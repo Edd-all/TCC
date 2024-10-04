@@ -1,24 +1,21 @@
-import { Navbar } from '../../components/Navbar'
+import { NavbarDeslogado } from '../../components/NavbarDeslogado'
 import { Footer } from '../../components/Footer'
 import './style.css';
 import piggy from '../../img/piggy-bank.png'; // Coloque a imagem correta no caminho apropriado
 
 
-export function Home(){
+export function TelaInicial(){
     return(
         <div className="home-container">
-        <Navbar/>
+        <NavbarDeslogado />
         <div className="content">
             <div className="description">
-                <h1>Financial Insights</h1>
+                <h1>Bem vindo a Financial Insights</h1>
                 <p>
-                    Bem vindo!
+                    Somos uma plataforma de organização financeira pessoal para ajudar você com a visibilidade e controle dos seus gastos.
                 </p>
                 <p>
-                    Se ainda não conhece a plataforma comece adicionando suas receitas e despesas na área de lançamentos financeiros acima ou as metas que deseja alcançar.
-                </p>
-                <p>
-                    A área de Estatisticas lhe fornecerá um feedback visual dos seus gastos após inseri-los no sistema.
+                    Faça seu login ou cadastre-se gratuitamente para começar a se organizar financeiramente. 
                 </p>
             </div>
             <div className="image-container">
