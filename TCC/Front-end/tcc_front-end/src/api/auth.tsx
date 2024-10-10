@@ -3,10 +3,16 @@ import { axiosInstance } from "./axiosInstance";
 export const postLogin = async (loginData: { username: string, password: string }) => {
     try {
         const response = await axiosInstance.post("/auth/login", loginData);
-        const token = response.headers["authorization"];
+        const token = response.data.token;
+        //const expirationTime = new Date().getTime() + 1 * 60 * 1000; // Define a expiração para 1 minuto para fins de teste
+        const expirationTime = new Date().getTime() + 30 * 60 * 1000;  // Define a expiração para 30 minutos
+
         if (token) {
-            localStorage.setItem("token", token);  // Salva o token no localStorage
-            console.log('Token salvo:', token); // Log do token salvo
+            localStorage.setItem("myAppName_token", token);
+            localStorage.setItem("myAppName_token_expiration", expirationTime.toString());  // Salva a hora de expiração
+            console.log('Token salvo:', token);
+        } else {
+            console.error("Token não foi encontrado no corpo da resposta");
         }
         return response.data;
     } catch (error) {

@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import { postLogin } from '../../api/auth'; 
 import './style.css';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
     const [username, setUsername] = useState('');
     const [senha, setSenha] = useState('');
-    //const navigate = useNavigate(); // Inicializa o useNavigate
+    const navigate = useNavigate();  // Inicializa o useNavigate
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         try {
             const loginData = {
-                username,  // Enviar o username
-                password: senha,  // E a senha
+                username,
+                password: senha,
             };
             const response = await postLogin(loginData);
             console.log('Resposta do servidor:', response);
-            //navigate('/');// Navega para a home
+
+            // Redireciona para a rota protegida após login bem-sucedido
+            navigate('/home'); 
         } catch (error) {
             console.error('Erro no login:', error);
         }
