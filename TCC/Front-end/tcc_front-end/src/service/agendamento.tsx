@@ -25,9 +25,10 @@ export const postAgendamento = async (agendamentoData: {
     tipoLancamento: string;
     descricao: string;
     valor: number; 
-    data: Date; // confirmar se funciona
-    diaSemana: string;
-    diaMes: number;
+
+    data: Date; // um dia especifico
+    diaSemana: string; //semanalmente
+    diaMes: number; // mensalmente
     lancamentoFinanceiro: number; //lancamento id
 }) => {
     try {

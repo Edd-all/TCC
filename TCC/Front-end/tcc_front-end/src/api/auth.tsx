@@ -22,13 +22,13 @@ export const postLogin = async (loginData: { username: string, password: string 
 };
 
 export const logout = () => {
-    localStorage.removeItem("token");  // Remove o token
+    localStorage.removeItem("myAppName_token");  // Remove o token
 };
 
 
 export const postAtivacao = async (uuid: string) => {
     try {
-        const token = localStorage.getItem("token"); // Obtenha o token do localStorage
+        const token = localStorage.getItem("myAppName_token"); // Obtenha o token do localStorage
         const response = await axiosInstance.get(`/auth/verificarCadastro/${uuid}`, {
             headers: {
                 Authorization: `Bearer ${token}`, // Use o token aqui
