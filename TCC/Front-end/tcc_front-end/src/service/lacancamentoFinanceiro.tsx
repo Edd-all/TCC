@@ -20,12 +20,15 @@ export const getLancamentosFinanceiros = async () => {
     }
 };
 
+
+
 export const postLancamentoFinanceiro = async (lancamentoData: {
     nome: string;
     valor: number;
     tipo: string;
-    usuario: number; //usuario id
+    usuario: string;
 }) => {
+
     try {
         const response = await axiosInstance.post("/lancamentoFinanceiro/cadastrar", lancamentoData);
         return response.data;  // Retorna a resposta da API

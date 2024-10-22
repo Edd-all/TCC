@@ -1,4 +1,6 @@
 import { axiosInstance } from "./axiosInstance";
+import { jwtDecode } from "jwt-decode";
+
 
 export const postLogin = async (loginData: { username: string, password: string }) => {
     try {
@@ -40,4 +42,26 @@ export const postAtivacao = async (uuid: string) => {
         throw error;
     }
 };
+
+interface JwtPayload {
+    sub: string;  // Normalmente o ID do usuário está no 'sub' (subject)
+    // Outros campos que seu token possa ter, como roles, etc.
+  }
+
+  export const getUserIdFromToken = (): string | null => {
+    const token = localStorage.getItem('token');
+    
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<JwtPayload>(token);
+        return decodedToken.sub; // Retorna o ID do usuário
+      } catch (error) {
+        console.error('Erro ao decodificar o token:', error);
+        return null;
+      }
+    }
+    
+    return null;
+  };
+  
 

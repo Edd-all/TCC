@@ -4,6 +4,7 @@ import './style.css';
 import React, { useState } from 'react';
 import { postLancamentoFinanceiro } from '../../service/lacancamentoFinanceiro';
 import { postAgendamento } from '../../service/agendamento';
+import { getUserIdFromToken } from '../../api/auth';
 
 export function LancamentosFinanceiros() {
     const [nome, setNome] = useState('');
@@ -17,7 +18,22 @@ export function LancamentosFinanceiros() {
 
     const handleAddLancamento = async (event: React.FormEvent) => {
         event.preventDefault();
-        const lancamentoData = { nome, valor, tipo, usuario: 1 }; // Substitua o id do usuário conforme necessário
+    
+        // Obtém o ID do usuário a partir do token
+        const userId = getUserIdFromToken(); 
+    
+        if (!userId) {
+            console.error('Usuário não está logado ou token inválido');
+            return;
+        }
+    
+        const lancamentoData = {
+            nome,
+            valor,
+            tipo,
+            usuario: userId  // Agora o userId foi corretamente definido e passado
+        };
+    
         try {
             await postLancamentoFinanceiro(lancamentoData);
             alert('Lançamento adicionado com sucesso!');
@@ -36,7 +52,7 @@ export function LancamentosFinanceiros() {
             data: new Date(data),
             diaSemana,
             diaMes,
-            lancamentoFinanceiro: 5 // ID do lançamento financeiro, pode ser passado conforme necessário
+            lancamentoFinanceiro: 1 // ID do lançamento financeiro, pode ser passado conforme necessário
         };
         try {
             await postAgendamento(agendamentoData);
