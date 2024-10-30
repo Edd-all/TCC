@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 import sg.comp.tcc.dto.LancamentoFinanceiroRequestDTO;
 import sg.comp.tcc.dto.LancamentoFinanceiroResponseDTO;
-import sg.comp.tcc.entity.Agendamento;
 import sg.comp.tcc.entity.LancamentoFinanceiro;
 import sg.comp.tcc.entity.Usuario;
 import sg.comp.tcc.enums.EnumDiaSemana;
-import sg.comp.tcc.repository.AgendamentoRepository;
+import sg.comp.tcc.enums.EnumReceitaDespesa;
+import sg.comp.tcc.enums.EnumTipoAgendamento;
 import sg.comp.tcc.repository.LancamentoFinanceiroRepository;
 
 @Service
@@ -28,10 +28,7 @@ public class LancamentoFincanceiroService {
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	@Autowired
-    private AgendamentoRepository agendamentoRepository;
-	
-	
+
 	
 	public List<LancamentoFinanceiroResponseDTO> listarLancamentosFinanceiros(){
 		List<LancamentoFinanceiro> lancamentoFinanceiro = repository.findAll();
@@ -49,14 +46,37 @@ public class LancamentoFincanceiroService {
 		}
 	}
 	
+	public LancamentoFinanceiro buscarPorTipoLancamento(EnumReceitaDespesa tipoLancamento) {
+		return repository.findByTipoLancamento(tipoLancamento).orElse(null);
+	}
+	
+	public List<LancamentoFinanceiro> buscarPorDiaEspecifico(LocalDate diaEspecifico) {
+		return repository.findByDiaEspecifico(diaEspecifico);
+	}
+	
+	public List<LancamentoFinanceiro> buscarPorDiaSemana(EnumDiaSemana diaSemana) {
+		return repository.findByDiaSemana(diaSemana);
+	}
+	public List<LancamentoFinanceiro> buscarPorDiaMes(int diaMes) {
+		return repository.findByDiaMes(diaMes);
+	}
+	
+	
+	
 	public LancamentoFinanceiroResponseDTO cadastrarLancamentoFinanceiro(LancamentoFinanceiroRequestDTO lancamentoFinanceiroRequestDTO) {
 		Usuario usuario = usuarioService.buscarPorId(lancamentoFinanceiroRequestDTO.getUsuario());
 		
 		LancamentoFinanceiro lancamento = new LancamentoFinanceiro(
 				lancamentoFinanceiroRequestDTO.getNome(),
+				lancamentoFinanceiroRequestDTO.getDescricao(),
 				lancamentoFinanceiroRequestDTO.getValor(),
 				lancamentoFinanceiroRequestDTO.getDataCriacao(),
-				lancamentoFinanceiroRequestDTO.getTipo(),
+				lancamentoFinanceiroRequestDTO.getTipoLancamento(),
+				
+				lancamentoFinanceiroRequestDTO.getTipoAgendamento(),
+				lancamentoFinanceiroRequestDTO.getDiaEspecifico(),
+				lancamentoFinanceiroRequestDTO.getDiaSemana(),
+				lancamentoFinanceiroRequestDTO.getDiaMes(),
 				usuario
 		);
 		
@@ -71,9 +91,15 @@ public class LancamentoFincanceiroService {
 		if(lancamento.isPresent()) {
 			LancamentoFinanceiro lancamentoFinanceiro = new LancamentoFinanceiro(
 					lancamentoFinanceiroRequestDTO.getNome(),
+					lancamentoFinanceiroRequestDTO.getDescricao(),
 					lancamentoFinanceiroRequestDTO.getValor(),
 					lancamentoFinanceiroRequestDTO.getDataCriacao(),
-					lancamentoFinanceiroRequestDTO.getTipo(),
+					lancamentoFinanceiroRequestDTO.getTipoLancamento(),
+					
+					lancamentoFinanceiroRequestDTO.getTipoAgendamento(),
+					lancamentoFinanceiroRequestDTO.getDiaEspecifico(),
+					lancamentoFinanceiroRequestDTO.getDiaSemana(),
+					lancamentoFinanceiroRequestDTO.getDiaMes(),
 					usuario
 			);
 			lancamentoFinanceiro.setId(id);
@@ -93,64 +119,61 @@ public class LancamentoFincanceiroService {
 	}
 	
 	
-	public void executaAgendamentos(LocalDate data) {
-		
-	    DayOfWeek today = LocalDate.now().getDayOfWeek();
-	    int diaMesAtual = data.getDayOfMonth();
-	    EnumDiaSemana enumDiaSemana = EnumDiaSemana.fromDayOfWeek(today);
-	    
-	    
-	    // Filtra os agendamentos por tipo de agendamento
-	    List<Agendamento> agendamentosData = agendamentoRepository.findByData(data);
-	    
-	    // Obtenha os agendamentos para o dia da semana atual
-	    List<Agendamento> agendamentosDiaSemana = agendamentoRepository.findByDiaSemana(enumDiaSemana);
-	 	
-	    List<Agendamento> agendamentosDiaMes = agendamentoRepository.findByDiaMes(diaMesAtual);
-
-        
-	 // Executa agendamentos para uma data específica
-	    for (Agendamento agendamento : agendamentosData) {
-	        LancamentoFinanceiro lancamento = new LancamentoFinanceiro(
-	            agendamento.getDescricao(),
-	            agendamento.getValor(),
-	            data,
-	            agendamento.getTipoLancamento(),
-	            agendamento.getLancamentoFinanceiro().getUsuario()
-	        );
-	        repository.save(lancamento); // repository == LancamentoFinanceiroRepository
-	        agendamentoRepository.save(agendamento);
-	    }
-
-	    // Executa agendamentos para o dia da semana
-	    for (Agendamento agendamento : agendamentosDiaSemana) {
-	        LancamentoFinanceiro lancamento = new LancamentoFinanceiro(
-	            agendamento.getDescricao(),
-	            agendamento.getValor(),
-	            data,
-	            agendamento.getTipoLancamento(),
-	            agendamento.getLancamentoFinanceiro().getUsuario()
-	        );
-	        repository.save(lancamento); // repository == LancamentoFinanceiroRepository
-	        agendamentoRepository.save(agendamento);
-	    }
-
-	    // Executa agendamentos para o dia do mês
-	    for (Agendamento agendamento : agendamentosDiaMes) {
-	    	agendamento.setData(LocalDate.now());
-	        LancamentoFinanceiro lancamento = new LancamentoFinanceiro(
-	            agendamento.getDescricao(),
-	            agendamento.getValor(),
-	            data,
-	            agendamento.getTipoLancamento(),
-	            agendamento.getLancamentoFinanceiro().getUsuario()
-	        );
+	  public void executaAgendamentos() {
+		  
+	        LocalDate hoje = LocalDate.now();
+	        DayOfWeek diaSemanaHoje = hoje.getDayOfWeek();
+	        int diaDoMesHoje = hoje.getDayOfMonth();
 	        
-	        repository.save(lancamento); // repository == LancamentoFinanceiroRepository
-	        agendamentoRepository.save(agendamento);
+	        // Processa todos os lançamentos com agendamento
+	        List<LancamentoFinanceiro> lancamentosAgendados = repository.findAll();
+	        
+	        for (LancamentoFinanceiro lancamento : lancamentosAgendados) {
+	            EnumTipoAgendamento tipoAgendamento = lancamento.getTipoAgendamento();
+
+	            if (tipoAgendamento != null) {
+	                switch (tipoAgendamento) {
+	                    case DIAESPECIFICO:
+	                        if (hoje.equals(lancamento.getDiaEspecifico())) {
+	                            criarLancamento(lancamento);
+	                        }
+	                        break;
+	                    
+	                    case DIASEMANA:
+	                        if (diaSemanaHoje.equals(lancamento.getDiaSemana().getDayOfWeek())) {
+	                            criarLancamento(lancamento);
+	                        }
+	                        break;
+	                    
+	                    case DIAMES:
+	                        if (diaDoMesHoje == lancamento.getDiaMes()) {
+	                            criarLancamento(lancamento);
+	                        }
+	                        break;
+
+	                    default:
+	                        break;
+	                }
+	            }
+	        }
 	    }
-	    
-    }
+
+	    private void criarLancamento(LancamentoFinanceiro lancamentoOriginal) {
+	        LancamentoFinanceiro novoLancamento = new LancamentoFinanceiro(
+	            lancamentoOriginal.getNome(),
+	            lancamentoOriginal.getDescricao(),
+	            lancamentoOriginal.getValor(),
+	            LocalDate.now(),
+	            lancamentoOriginal.getTipoLancamento(),
+	            lancamentoOriginal.getTipoAgendamento(),
+	            lancamentoOriginal.getDiaEspecifico(),
+	            lancamentoOriginal.getDiaSemana(),
+	            lancamentoOriginal.getDiaMes(),
+	            lancamentoOriginal.getUsuario()
+	        );
+	        repository.save(novoLancamento);
+	    }
+	
 	
 	
 }

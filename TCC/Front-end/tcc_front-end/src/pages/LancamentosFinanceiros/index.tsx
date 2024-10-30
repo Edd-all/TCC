@@ -1,16 +1,15 @@
-import { Navbar } from '../../components/Navbar'
-import { Footer } from '../../components/Footer'
+import { Navbar } from '../../components/Navbar';
+import { Footer } from '../../components/Footer';
 import './style.css';
 import React, { useState } from 'react';
 import { postLancamentoFinanceiro } from '../../service/lacancamentoFinanceiro';
-import { postAgendamento } from '../../service/agendamento';
 import { getUserIdFromToken } from '../../api/auth';
 
 export function LancamentosFinanceiros() {
     const [nome, setNome] = useState('');
+    const [descricao, setDescricao] = useState(''); // Novo estado para descrição
     const [valor, setValor] = useState(0);
     const [tipo, setTipo] = useState('');
-    const [descricaoAgendamento, setDescricaoAgendamento] = useState('');
     const [tipoAgendamento, setTipoAgendamento] = useState('');
     const [data, setData] = useState('');
     const [diaSemana, setDiaSemana] = useState('');
@@ -18,47 +17,30 @@ export function LancamentosFinanceiros() {
 
     const handleAddLancamento = async (event: React.FormEvent) => {
         event.preventDefault();
-    
-        // Obtém o ID do usuário a partir do token
-        const userId = getUserIdFromToken(); 
-    
+
+        const userId = getUserIdFromToken();
+
         if (!userId) {
             console.error('Usuário não está logado ou token inválido');
             return;
         }
-    
+
         const lancamentoData = {
             nome,
             valor,
             tipo,
-            usuario: userId  // Agora o userId foi corretamente definido e passado
+            tipoAgendamento,
+            data: tipoAgendamento === 'especifica' ? new Date(data) : null,
+            diaSemana: tipoAgendamento === 'semanal' ? diaSemana : null,
+            diaMes: tipoAgendamento === 'mensal' ? diaMes : null,
+            usuario: userId
         };
-    
+
         try {
             await postLancamentoFinanceiro(lancamentoData);
-            alert('Lançamento adicionado com sucesso!');
+            alert('Lançamento financeiro adicionado com sucesso!');
         } catch (error) {
             console.error('Erro ao adicionar o lançamento financeiro', error);
-        }
-    };
-
-    const handleAddAgendamento = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const agendamentoData = {
-            tipoAgendamento,
-            tipoLancamento: tipo,
-            descricao: descricaoAgendamento,
-            valor,
-            data: new Date(data),
-            diaSemana,
-            diaMes,
-            lancamentoFinanceiro: 1 // ID do lançamento financeiro, pode ser passado conforme necessário
-        };
-        try {
-            await postAgendamento(agendamentoData);
-            alert('Agendamento criado com sucesso!');
-        } catch (error) {
-            console.error('Erro ao agendar o lançamento financeiro', error);
         }
     };
 
@@ -77,6 +59,16 @@ export function LancamentosFinanceiros() {
                             onChange={(e) => setNome(e.target.value)} 
                             placeholder="Nome do lançamento"
                         />
+
+                        <label htmlFor="descricao">Descrição</label>
+                        <textarea
+                            id="descricao"
+                            value={descricao}
+                            onChange={(e) => setDescricao(e.target.value)}
+                            rows={3}
+                            placeholder="Descrição do lançamento"
+                            className="descricao-textarea"
+                        ></textarea>
 
                         <label htmlFor="valor">Valor</label>
                         <input 
@@ -98,22 +90,6 @@ export function LancamentosFinanceiros() {
                             <option value="D">Despesa</option>
                         </select>
 
-                        <button type="submit" className="submit-btn">Adicionar Lançamento</button>
-                    </form>
-                </div>
-
-                <div className="agendar-lancamento">
-                    <h2>Agendar Lançamento</h2>
-                    <form onSubmit={handleAddAgendamento} className="agendamento-form">
-                        <label htmlFor="descricaoAgendamento">Descrição</label>
-                        <input 
-                            type="text" 
-                            id="descricaoAgendamento" 
-                            value={descricaoAgendamento} 
-                            onChange={(e) => setDescricaoAgendamento(e.target.value)} 
-                            placeholder="Descrição do agendamento"
-                        />
-
                         <label htmlFor="tipoAgendamento">Tipo de Agendamento</label>
                         <select 
                             id="tipoAgendamento" 
@@ -124,7 +100,6 @@ export function LancamentosFinanceiros() {
                             <option value="especifica">Data Específica</option>
                             <option value="semanal">Dia da Semana</option>
                             <option value="mensal">Dia do Mês</option>
-                            
                         </select>
 
                         {tipoAgendamento === 'especifica' && (
@@ -172,7 +147,7 @@ export function LancamentosFinanceiros() {
                             </div>
                         )}
 
-                        <button type="submit" className="submit-btn">Agendar Lançamento</button>
+                        <button type="submit" className="submit-btn">Adicionar Lançamento</button>
                     </form>
                 </div>
             </div>

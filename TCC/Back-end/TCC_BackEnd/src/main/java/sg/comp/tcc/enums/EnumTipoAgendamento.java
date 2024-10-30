@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EnumTipoAgendamento {
-	DATA("D","Data"), //hoje
+	DIAESPECIFICO("D","DiaEspecifico"), 
 	DIASEMANA ("S", "DiaSemana"),
 	DIAMES ("M", "DiaMes");
 	
@@ -38,7 +38,7 @@ public enum EnumTipoAgendamento {
 	@JsonCreator
 	public static EnumTipoAgendamento doValor(String codigo) {
 		if(codigo.equals("D")) {
-			return DATA;
+			return DIAESPECIFICO;
 		}else if(codigo.equals("S")) {
 			return DIASEMANA;
 		}else if(codigo.equals("M")) {

@@ -14,10 +14,11 @@ body, html {
 
 .content {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     flex: 1;
     padding: 2em;
-    justify-content: space-between; /* Espaço entre a descrição e a imagem */
-    align-items: center; /* Centraliza verticalmente */
 }
 
 .description {
@@ -136,4 +137,6 @@ body, html {
     -webkit-appearance: none;  /* Para Chrome, Safari, etc. */
     appearance: none;          /* Para outros navegadores */
 }
+
+
 

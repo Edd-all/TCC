@@ -19,6 +19,10 @@ public enum EnumDiaSemana {
 	    EnumDiaSemana(DayOfWeek dayOfWeek) {
 	        this.dayOfWeek = dayOfWeek;
 	    }
+	    
+	    public DayOfWeek getDayOfWeek() {
+	        return dayOfWeek;
+	    }
 
 	    public static EnumDiaSemana fromDayOfWeek(DayOfWeek dayOfWeek) {
 	        for (EnumDiaSemana enumDia : EnumDiaSemana.values()) {
