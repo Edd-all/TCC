@@ -33,9 +33,9 @@ export function LancamentosFinanceiros() {
             valor:tipoLancamento === 'D'? valor*-1: valor,
             tipoLancamento,
             tipoAgendamento,
-            diaEspecifico: tipoAgendamento === 'especifica' ? new Date(data) : "2024-0-0",
-            diaSemana: tipoAgendamento === 'semanal' ? diaSemana : "SEGUNDA_FEIRA",
-            diaMes: tipoAgendamento === 'mensal' ? diaMes : 0,
+            diaEspecifico: tipoAgendamento === 'D' ? new Date(data) : "2024-01-01",
+            diaSemana: tipoAgendamento === 'S' ? diaSemana : "SEGUNDA_FEIRA",
+            diaMes: tipoAgendamento === 'M' ? diaMes : 0,
             usuario: userInfo ? userInfo.userId : ""
         };
 
@@ -101,12 +101,12 @@ export function LancamentosFinanceiros() {
                             onChange={(e) => setTipoAgendamento(e.target.value)}
                         >
                             <option value="">Selecione...</option>
-                            <option value="especifica">Data Específica</option>
-                            <option value="semanal">Dia da Semana</option>
-                            <option value="mensal">Dia do Mês</option>
+                            <option value="D">Data Específica</option>
+                            <option value="S">Dia da Semana</option>
+                            <option value="M">Dia do Mês</option>
                         </select>
 
-                        {tipoAgendamento === 'especifica' && (
+                        {tipoAgendamento === 'D' && (
                             <div>
                                 <label htmlFor="data">Data</label>
                                 <input 
@@ -118,7 +118,7 @@ export function LancamentosFinanceiros() {
                             </div>
                         )}
 
-                        {tipoAgendamento === 'semanal' && (
+                        {tipoAgendamento === 'S' && (
                             <div>
                                 <label htmlFor="diaSemana">Dia da Semana</label>
                                 <select 
@@ -138,7 +138,7 @@ export function LancamentosFinanceiros() {
                             </div>
                         )}
 
-                        {tipoAgendamento === 'mensal' && (
+                        {tipoAgendamento === 'M' && (
                             <div>
                                 <label htmlFor="diaMes">Dia do Mês</label>
                                 <input 

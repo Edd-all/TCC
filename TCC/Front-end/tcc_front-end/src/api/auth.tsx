@@ -54,7 +54,7 @@ interface JwtPayload {
     if (token) {
         try {
             const decodedToken = jwtDecode<JwtPayload>(token);
-            console.log('UserId (ID do usuário):', decodedToken.sub);
+            console.log('(Login do usuário):', decodedToken.sub);
             return { userId: decodedToken.sub, username: decodedToken.username };
         } catch (error) {
             console.error('Erro ao decodificar o token:', error);
