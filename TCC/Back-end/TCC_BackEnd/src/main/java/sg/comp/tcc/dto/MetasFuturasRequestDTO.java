@@ -10,7 +10,7 @@ public class MetasFuturasRequestDTO {
 	@NotBlank
 	private String nome;
 	private Double valorGuardar;
-	private Long usuario;
+	private String usuario;
 	
 	public Long getId() {
 		return id;
@@ -30,10 +30,10 @@ public class MetasFuturasRequestDTO {
 	public void setValorGuardar(Double valorGuardar) {
 		this.valorGuardar = valorGuardar;
 	}
-	public Long getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
-	public void setUsuario(Long usuario) {
+	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
 	

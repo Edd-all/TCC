@@ -10,8 +10,8 @@ export const postLogin = async (loginData: { username: string, password: string 
         const expirationTime = new Date().getTime() + 30 * 60 * 1000;  // Define a expiração para 30 minutos
 
         if (token) {
-            localStorage.setItem("myAppName_token", token);
-            localStorage.setItem("myAppName_token_expiration", expirationTime.toString());  // Salva a hora de expiração
+            localStorage.setItem("token", token);
+            localStorage.setItem("token_expiration", expirationTime.toString());  // Salva a hora de expiração
             console.log('Token salvo:', token);
         } else {
             console.error("Token não foi encontrado no corpo da resposta");
@@ -24,13 +24,13 @@ export const postLogin = async (loginData: { username: string, password: string 
 };
 
 export const logout = () => {
-    localStorage.removeItem("myAppName_token");  // Remove o token
+    localStorage.removeItem("token");  // Remove o token
 };
 
 
 export const postAtivacao = async (uuid: string) => {
     try {
-        const token = localStorage.getItem("myAppName_token"); // Obtenha o token do localStorage
+        const token = localStorage.getItem("token"); // Obtenha o token do localStorage
         const response = await axiosInstance.get(`/auth/verificarCadastro/${uuid}`, {
             headers: {
                 Authorization: `Bearer ${token}`, // Use o token aqui
@@ -46,22 +46,22 @@ export const postAtivacao = async (uuid: string) => {
 interface JwtPayload {
     sub: string;  // Normalmente o ID do usuário está no 'sub' (subject)
     // Outros campos que seu token possa ter, como roles, etc.
+    username: string;
   }
 
-  export const getUserIdFromToken = (): string | null => {
+  export const getUserIdFromToken = (): { userId: string, username: string } | null => {
     const token = localStorage.getItem('token');
-    
     if (token) {
-      try {
-        const decodedToken = jwtDecode<JwtPayload>(token);
-        return decodedToken.sub; // Retorna o ID do usuário
-      } catch (error) {
-        console.error('Erro ao decodificar o token:', error);
-        return null;
-      }
+        try {
+            const decodedToken = jwtDecode<JwtPayload>(token);
+            console.log('UserId (ID do usuário):', decodedToken.sub);
+            return { userId: decodedToken.sub, username: decodedToken.username };
+        } catch (error) {
+            console.error('Erro ao decodificar o token:', error);
+            return null;
+        }
     }
-    
     return null;
-  };
+};
   
 

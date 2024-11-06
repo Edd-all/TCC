@@ -40,7 +40,7 @@ public class MetasFuturasService {
 	}
 	
 	public MetasFuturasResponseDTO cadastrarMetasFuturas(MetasFuturasRequestDTO metasFuturasRequestDTO) {
-		Usuario usuario = usuarioService.buscarPorId(metasFuturasRequestDTO.getUsuario());
+		Usuario usuario = usuarioService.buscarPorLogin(metasFuturasRequestDTO.getUsuario());
 		
 		MetasFuturas metas = new MetasFuturas(
 				metasFuturasRequestDTO.getNome(),
@@ -54,7 +54,7 @@ public class MetasFuturasService {
 	
 	public MetasFuturasResponseDTO atualizarMetasFuturas(Long id, MetasFuturasRequestDTO metasFuturasRequestDTO) {
 		Optional<MetasFuturas> metas = repository.findById(id);
-		Usuario usuario = usuarioService.buscarPorId(metasFuturasRequestDTO.getUsuario());
+		Usuario usuario = usuarioService.buscarPorLogin(metasFuturasRequestDTO.getUsuario());
 		
 		if(metas.isPresent()) {
 			MetasFuturas metasFuturas = new MetasFuturas(

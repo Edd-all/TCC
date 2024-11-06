@@ -64,7 +64,9 @@ public class LancamentoFincanceiroService {
 	
 	
 	public LancamentoFinanceiroResponseDTO cadastrarLancamentoFinanceiro(LancamentoFinanceiroRequestDTO lancamentoFinanceiroRequestDTO) {
-		Usuario usuario = usuarioService.buscarPorId(lancamentoFinanceiroRequestDTO.getUsuario());
+		
+		Usuario usuario = usuarioService.buscarPorLogin(lancamentoFinanceiroRequestDTO.getUsuario());
+		System.out.println(lancamentoFinanceiroRequestDTO.toString());
 		
 		LancamentoFinanceiro lancamento = new LancamentoFinanceiro(
 				lancamentoFinanceiroRequestDTO.getNome(),
@@ -80,13 +82,15 @@ public class LancamentoFincanceiroService {
 				usuario
 		);
 		
+		System.out.println(lancamento);
+		
 		LancamentoFinanceiro lancamentoSalvo = repository.save(lancamento);
 		return new LancamentoFinanceiroResponseDTO(lancamentoSalvo);
 	}
 	
 	public LancamentoFinanceiroResponseDTO atualizarLancamentoFinanceiro(Long id, LancamentoFinanceiroRequestDTO lancamentoFinanceiroRequestDTO) {
 		Optional<LancamentoFinanceiro> lancamento = repository.findById(id);
-		Usuario usuario = usuarioService.buscarPorId(lancamentoFinanceiroRequestDTO.getUsuario());
+		Usuario usuario = usuarioService.buscarPorLogin(lancamentoFinanceiroRequestDTO.getUsuario());
 		
 		if(lancamento.isPresent()) {
 			LancamentoFinanceiro lancamentoFinanceiro = new LancamentoFinanceiro(

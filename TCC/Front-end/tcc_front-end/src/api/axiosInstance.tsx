@@ -6,8 +6,8 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("myAppName_token");
-        const expirationTime = localStorage.getItem("myAppName_token_expiration");
+        const token = localStorage.getItem("token");
+        const expirationTime = localStorage.getItem("token_expiration");
 
         if (token && expirationTime && new Date().getTime() < parseInt(expirationTime)) {
             config.headers["Authorization"] = `Bearer ${token}`;

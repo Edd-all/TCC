@@ -23,13 +23,23 @@ export const getLancamentosFinanceiros = async () => {
 
 
 export const postLancamentoFinanceiro = async (lancamentoData: {
-    nome: string;
-    valor: number;
-    tipo: string;
-    usuario: string;
+    // nome: string;
+    // valor: number;
+    // tipo: string;
+    // usuario: string;
+            nome: string,
+            descricao: string,
+            valor: number,
+            tipoLancamento: string,
+            tipoAgendamento: string | null,
+            diaEspecifico: Date | string,
+            diaSemana: string | null,
+            diaMes: number | null,
+            usuario: string
 }) => {
 
     try {
+        console.log(lancamentoData);
         const response = await axiosInstance.post("/lancamentoFinanceiro/cadastrar", lancamentoData);
         return response.data;  // Retorna a resposta da API
     } catch (error) {

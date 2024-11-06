@@ -6,8 +6,8 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
-    const token = localStorage.getItem('myAppName_token');
-    const tokenExpiration = localStorage.getItem('myAppName_token_expiration');
+    const token = localStorage.getItem('token');
+    const tokenExpiration = localStorage.getItem('token_expiration');
     const currentTime = new Date().getTime();
 
     // Verifica se o token existe e se ainda está dentro do prazo de validade
@@ -15,8 +15,8 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
         console.log('Token expirado ou não encontrado, redirecionando para login');
 
         // Remove o token e a expiração caso tenha expirado
-        localStorage.removeItem('myAppName_token');
-        localStorage.removeItem('myAppName_token_expiration');
+        localStorage.removeItem('token');
+        localStorage.removeItem('token_expiration');
 
         return <Navigate to="/login" replace />;
     }

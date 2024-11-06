@@ -9,7 +9,7 @@ export function LancamentosFinanceiros() {
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState(''); // Novo estado para descrição
     const [valor, setValor] = useState(0);
-    const [tipo, setTipo] = useState('');
+    const [tipoLancamento, setTipoLancamento] = useState('');
     const [tipoAgendamento, setTipoAgendamento] = useState('');
     const [data, setData] = useState('');
     const [diaSemana, setDiaSemana] = useState('');
@@ -19,6 +19,8 @@ export function LancamentosFinanceiros() {
         event.preventDefault();
 
         const userId = getUserIdFromToken();
+        const userInfo = getUserIdFromToken();
+        console.log(userInfo);
 
         if (!userId) {
             console.error('Usuário não está logado ou token inválido');
@@ -27,13 +29,14 @@ export function LancamentosFinanceiros() {
 
         const lancamentoData = {
             nome,
-            valor,
-            tipo,
+            descricao,
+            valor:tipoLancamento === 'D'? valor*-1: valor,
+            tipoLancamento,
             tipoAgendamento,
-            data: tipoAgendamento === 'especifica' ? new Date(data) : null,
-            diaSemana: tipoAgendamento === 'semanal' ? diaSemana : null,
-            diaMes: tipoAgendamento === 'mensal' ? diaMes : null,
-            usuario: userId
+            diaEspecifico: tipoAgendamento === 'especifica' ? new Date(data) : "2024-0-0",
+            diaSemana: tipoAgendamento === 'semanal' ? diaSemana : "SEGUNDA_FEIRA",
+            diaMes: tipoAgendamento === 'mensal' ? diaMes : 0,
+            usuario: userInfo ? userInfo.userId : ""
         };
 
         try {
@@ -77,13 +80,14 @@ export function LancamentosFinanceiros() {
                             value={valor} 
                             onChange={(e) => setValor(Number(e.target.value))} 
                             placeholder="Valor do lançamento"
+                            min={0}
                         />
 
                         <label htmlFor="tipo">Tipo</label>
                         <select 
                             id="tipo" 
-                            value={tipo} 
-                            onChange={(e) => setTipo(e.target.value)}
+                            value={tipoLancamento} 
+                            onChange={(e) => setTipoLancamento(e.target.value)}
                         >
                             <option value="">Selecione...</option>
                             <option value="R">Receita</option>

@@ -45,6 +45,10 @@ public class UsuarioService {
 		return repository.findByNome(nome).orElse(null);
 	}
 	
+	public Usuario buscarPorLogin(String login) {
+		return repository.findByLogin(login).orElse(null);
+	}
+	
 	public UsuarioResponseDTO cadastrarUsuario(Usuario usuario) {
 		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		return new UsuarioResponseDTO(repository.save(usuario));

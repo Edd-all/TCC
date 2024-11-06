@@ -27,7 +27,14 @@ public class JwtUtils {
 	private int jwtExpirationMs;
 	
 	public String generateTokenFromUserDetailsImpl(UserDetailsImpl userDetail) {
-		return Jwts.builder().setSubject(userDetail.getUsername())
+		
+		
+		return Jwts.builder()
+				.setSubject(userDetail.getUsername())
+				
+				 //.setSubject(String.valueOf(userDetail.getId())) // Passa o ID do usuário como subject
+				 //.claim("username", userDetail.getUsername()) // Armazena o username como claim adicional, se necessário
+				  
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
 				.signWith(getSigninKey(), SignatureAlgorithm.HS512).compact();

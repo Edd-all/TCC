@@ -23,7 +23,7 @@ public class LancamentoFinanceiroRequestDTO {
 	private EnumDiaSemana diaSemana;
 	private int diaMes;
 	
-	private Long usuario;
+	private String usuario;
 	
 	
 	
@@ -108,12 +108,20 @@ public class LancamentoFinanceiroRequestDTO {
 		this.diaMes = diaMes;
 	}
 
-	public Long getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Long usuario) {
+	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	@Override
+	public String toString() {
+		return "LancamentoFinanceiroRequestDTO [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", valor="
+				+ valor + ", dataCriacao=" + dataCriacao + ", tipoLancamento=" + tipoLancamento + ", tipoAgendamento="
+				+ tipoAgendamento + ", diaEspecifico=" + diaEspecifico + ", diaSemana=" + diaSemana + ", diaMes="
+				+ diaMes + ", usuario=" + usuario + "]";
 	}
 	
 	
