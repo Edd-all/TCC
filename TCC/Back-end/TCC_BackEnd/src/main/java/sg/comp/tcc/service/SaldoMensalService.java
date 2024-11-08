@@ -30,7 +30,7 @@ public class SaldoMensalService {
 	}
 	
 	public SaldoMensalResponseDTO cadastrarSaldoMensal(SaldoMensalRequestDTO saldoMensalRequestDTO) {
-		Usuario usuario = usuarioService.buscarPorId(saldoMensalRequestDTO.getUsuario());
+		Usuario usuario = usuarioService.buscarPorLogin(saldoMensalRequestDTO.getUsuario());
 		
 		SaldoMensal saldoMensal = new SaldoMensal(
 				saldoMensalRequestDTO.getValor(),
@@ -43,7 +43,8 @@ public class SaldoMensalService {
 	
 	public SaldoMensalResponseDTO atualizarSaldoMensal(Long id, SaldoMensalRequestDTO saldoMensalRequestDTO) {
 		Optional<SaldoMensal> saldo = repository.findById(id);
-		Usuario usuario = usuarioService.buscarPorId(saldoMensalRequestDTO.getUsuario());
+		Usuario usuario = usuarioService.buscarPorLogin(saldoMensalRequestDTO.getUsuario());
+		
 		if(saldo.isPresent()) {
 			SaldoMensal saldoMensal = new SaldoMensal(
 					saldoMensalRequestDTO.getValor(),

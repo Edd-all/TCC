@@ -12,7 +12,7 @@ public class SaldoMensalRequestDTO {
 	private Double valor;
 	private LocalDate diaDoMes;
 	@NotBlank
-    private Long usuario;
+    private String usuario;
 	
 	
 	public Long getId() {
@@ -33,10 +33,10 @@ public class SaldoMensalRequestDTO {
 	public void setDiaDoMes(LocalDate diaDoMes) {
 		this.diaDoMes = diaDoMes;
 	}
-	public Long getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
-	public void setUsuario(Long usuario) {
+	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
 	

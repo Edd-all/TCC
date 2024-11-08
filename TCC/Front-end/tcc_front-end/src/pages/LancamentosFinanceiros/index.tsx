@@ -7,7 +7,7 @@ import { getUserIdFromToken } from '../../api/auth';
 
 export function LancamentosFinanceiros() {
     const [nome, setNome] = useState('');
-    const [descricao, setDescricao] = useState(''); // Novo estado para descrição
+    const [descricao, setDescricao] = useState(''); 
     const [valor, setValor] = useState(0);
     const [tipoLancamento, setTipoLancamento] = useState('');
     const [tipoAgendamento, setTipoAgendamento] = useState('');
@@ -44,12 +44,14 @@ export function LancamentosFinanceiros() {
             alert('Lançamento financeiro adicionado com sucesso!');
         } catch (error) {
             console.error('Erro ao adicionar o lançamento financeiro', error);
+            alert("Erro ao adicionar Lançamento. Tente novamente.")
         }
     };
 
     return (
         <div className="home-container">
             <Navbar />
+
             <div className="content">
                 <div className="add-lancamento">
                     <h2>Adicionar Lançamento</h2>

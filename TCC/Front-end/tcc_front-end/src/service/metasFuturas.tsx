@@ -21,11 +21,12 @@ export const getMetasFuturas = async () => {
 };
 
 export const postMetaFutura = async (metaFuturaData: {
-    nome: string;
-    valorGuardar: number;
-    usuario: number; //usuario id
+    nome: string,
+    valorGuardar: number,
+    usuario: string //login do usuario 
 }) => {
     try {
+        console.log(metaFuturaData)
         const response = await axiosInstance.post("/metasFuturas/cadastrar", metaFuturaData);
         return response.data;  // Retorna a resposta da API
     } catch (error) {

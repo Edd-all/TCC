@@ -20,12 +20,16 @@ export function Home(){
                 <p>
                     A área de Estatisticas lhe fornecerá um feedback visual dos seus gastos após inseri-los no sistema.
                 </p>
+
+                
             </div>
+
             <div className="image-container">
                 <img src={piggy} alt="Organização Financeira" />
             </div>
+            
         </div>
         <Footer />
-    </div>
+        </div>
     )
 }

@@ -1,6 +1,6 @@
 import { axiosInstance } from "../api/axiosInstance";
 
-export const getMetaFutura = async () => {
+export const getSaldoMensal = async () => {
     // terei que mudar para pegar o id do usuario
     try {
         const response = await axiosInstance.get(`/saldoMensal/calcular`); 
@@ -11,7 +11,7 @@ export const getMetaFutura = async () => {
     }
 };
 
-export const getMetasFuturas = async () => {
+export const getSaldosMensais = async () => {
     try {
         const response = await axiosInstance.get(`/saldoMensal/listar`);
         return response.data;
@@ -21,17 +21,4 @@ export const getMetasFuturas = async () => {
     }
 };
 
-export const postMetaFutura = async (metaFuturaData: {
-    nome: string;
-    valorGuardar: number;
-    usuario: number; //usuario id
-}) => {
-    try {
-        const response = await axiosInstance.post("/metasFuturas/cadastrar", metaFuturaData);
-        return response.data;  // Retorna a resposta da API
-    } catch (error) {
-        console.error("Erro ao cadastrar o Lançamento Financeiro", error);
-        throw error;
-    }
-};
 

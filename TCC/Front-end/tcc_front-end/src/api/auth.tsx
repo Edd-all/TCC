@@ -44,8 +44,7 @@ export const postAtivacao = async (uuid: string) => {
 };
 
 interface JwtPayload {
-    sub: string;  // Normalmente o ID do usuário está no 'sub' (subject)
-    // Outros campos que seu token possa ter, como roles, etc.
+    sub: string;  // Normalmente o ID do usuário está no 'sub' (subject) mas neste caso é o login
     username: string;
   }
 

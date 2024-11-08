@@ -23,10 +23,6 @@ export const getLancamentosFinanceiros = async () => {
 
 
 export const postLancamentoFinanceiro = async (lancamentoData: {
-    // nome: string;
-    // valor: number;
-    // tipo: string;
-    // usuario: string;
             nome: string,
             descricao: string,
             valor: number,
@@ -35,7 +31,7 @@ export const postLancamentoFinanceiro = async (lancamentoData: {
             diaEspecifico: Date | string,
             diaSemana: string | null,
             diaMes: number | null,
-            usuario: string
+            usuario: string //login do usuario 
 }) => {
 
     try {
