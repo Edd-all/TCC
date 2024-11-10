@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import sg.comp.tcc.dto.LancamentoFinanceiroResponseDTO;
 import sg.comp.tcc.dto.MetasFuturasRequestDTO;
 import sg.comp.tcc.dto.MetasFuturasResponseDTO;
 import sg.comp.tcc.service.MetasFuturasService;
@@ -37,6 +39,16 @@ public class MetasFuturasController {
 	public ResponseEntity<MetasFuturasResponseDTO> listarMetasFuturasPorId(@PathVariable Long id){
 		return ResponseEntity.ok(service.listarMetasFuturasPorId(id));
 	}
+	
+	
+	
+	//em fase de teste
+		@GetMapping("/listarPorLogin")
+	    public List<MetasFuturasResponseDTO> listarMetasFuturasPorLogin(@RequestParam String login) {
+	        return service.listarMetasFuturasPorLogin(login);
+	    }
+		
+		
 	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<MetasFuturasResponseDTO> cadastrarMetasFuturas(

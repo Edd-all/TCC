@@ -12,6 +12,10 @@ import sg.comp.tcc.enums.EnumDiaSemana;
 import sg.comp.tcc.enums.EnumReceitaDespesa;
 
 public interface LancamentoFinanceiroRepository extends JpaRepository<LancamentoFinanceiro, Long>{
+	
+	List<LancamentoFinanceiro> findByUsuarioLogin(String login);
+	
+	
 	List<LancamentoFinanceiro> findByUsuario(Usuario usuario);
 	
 	Optional<LancamentoFinanceiro> findByTipoLancamento(EnumReceitaDespesa tipoLancamento);

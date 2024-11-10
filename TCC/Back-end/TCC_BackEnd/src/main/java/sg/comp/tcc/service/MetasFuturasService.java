@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sg.comp.tcc.dto.LancamentoFinanceiroResponseDTO;
 import sg.comp.tcc.dto.MetasFuturasRequestDTO;
 import sg.comp.tcc.dto.MetasFuturasResponseDTO;
+import sg.comp.tcc.entity.LancamentoFinanceiro;
 import sg.comp.tcc.entity.MetasFuturas;
 import sg.comp.tcc.entity.Usuario;
 import sg.comp.tcc.repository.MetasFuturasRepository;
@@ -38,6 +40,22 @@ public class MetasFuturasService {
 			throw new NoSuchElementException("Meta não encontrada!");
 		}
 	}
+	
+	
+	//em fase de teste
+		public List<MetasFuturasResponseDTO> listarMetasFuturasPorLogin(String login){
+			List<MetasFuturas> metas = repository.findByUsuarioLogin(login);
+		    
+		    if (metas.isEmpty()) {
+		        throw new NoSuchElementException("Nenhuma meta encontrada para o login fornecido!");
+		    }
+		    
+		    return metas.stream()
+		                      .map(MetasFuturasResponseDTO::new)
+		                      .collect(Collectors.toList());
+		}
+		
+		
 	
 	public MetasFuturasResponseDTO cadastrarMetasFuturas(MetasFuturasRequestDTO metasFuturasRequestDTO) {
 		Usuario usuario = usuarioService.buscarPorLogin(metasFuturasRequestDTO.getUsuario());

@@ -20,6 +20,18 @@ export const getMetasFuturas = async () => {
     }
 };
 
+export const getMetasFuturasByLogin = async (login: string) => {
+    try {
+        const response = await axiosInstance.get(`/metasFuturas/listarPorLogin?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar os Lançamentos Financeiros por login", error);
+        throw error;
+    }
+};
+
+
+
 export const postMetaFutura = async (metaFuturaData: {
     nome: string,
     valorGuardar: number,

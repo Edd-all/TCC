@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sg.comp.tcc.dto.MetasFuturasResponseDTO;
 import sg.comp.tcc.dto.SaldoMensalRequestDTO;
 import sg.comp.tcc.dto.SaldoMensalResponseDTO;
 import sg.comp.tcc.entity.LancamentoFinanceiro;
+import sg.comp.tcc.entity.MetasFuturas;
 import sg.comp.tcc.entity.SaldoMensal;
 import sg.comp.tcc.entity.Usuario;
 import sg.comp.tcc.repository.LancamentoFinanceiroRepository;
@@ -28,6 +30,22 @@ public class SaldoMensalService {
 		List<SaldoMensal> saldosMensais = repository.findAll();
 		return saldosMensais.stream().map(SaldoMensalResponseDTO::new).collect(Collectors.toList());
 	}
+	
+	
+	//em fase de teste
+			public List<SaldoMensalResponseDTO> listarSaldoMensalPorLogin(String login){
+				List<SaldoMensal> saldo = repository.findByUsuarioLogin(login);
+			    
+			    if (saldo.isEmpty()) {
+			        throw new NoSuchElementException("Nenhum saldo encontrado para o login fornecido!");
+			    }
+			    
+			    return saldo.stream()
+			                      .map(SaldoMensalResponseDTO::new)
+			                      .collect(Collectors.toList());
+			}
+			
+	
 	
 	public SaldoMensalResponseDTO cadastrarSaldoMensal(SaldoMensalRequestDTO saldoMensalRequestDTO) {
 		Usuario usuario = usuarioService.buscarPorLogin(saldoMensalRequestDTO.getUsuario());
@@ -70,6 +88,7 @@ public class SaldoMensalService {
 	
 	 @Autowired
 	    private LancamentoFinanceiroRepository lancamentoFinanceiroRepository;
+	 
 	 
 	 public String calcularSaldoMensal(Usuario usuario) {
 	        // Buscar todos os lançamentos financeiros do usuário

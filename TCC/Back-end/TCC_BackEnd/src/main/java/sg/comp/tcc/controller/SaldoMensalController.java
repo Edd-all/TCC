@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import sg.comp.tcc.dto.LancamentoFinanceiroResponseDTO;
 import sg.comp.tcc.dto.SaldoMensalRequestDTO;
 import sg.comp.tcc.dto.SaldoMensalResponseDTO;
 import sg.comp.tcc.entity.Usuario;
@@ -39,6 +40,14 @@ public class SaldoMensalController {
 		return service.listarSaldo();
 	}
 	
+	
+	//em fase de teste
+		@GetMapping("/listarPorLogin")
+	    public List<SaldoMensalResponseDTO> listarSaldoMensalPorLogin(@RequestParam String login) {
+	        return service.listarSaldoMensalPorLogin(login);
+	    }
+		
+	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<SaldoMensalResponseDTO> cadastrarSaldoMensal(
 			@Valid @RequestBody SaldoMensalRequestDTO saldoMensalRequestDTO){
@@ -59,8 +68,9 @@ public class SaldoMensalController {
 	}
 	
 	@GetMapping("/calcular")
-    public ResponseEntity<String> calcularSaldoMensal(@RequestParam Long usuarioId) {
-        Usuario usuario = usuarioService.buscarPorId(usuarioId);
+    public ResponseEntity<String> calcularSaldoMensal(@RequestParam String usuarioLogin) {
+        Usuario usuario = usuarioService.buscarPorLogin(usuarioLogin);
+        
         if (usuario == null) {
             return ResponseEntity.notFound().build();
         }

@@ -20,6 +20,15 @@ export const getLancamentosFinanceiros = async () => {
     }
 };
 
+export const getLancamentosFinanceirosByLogin = async (login: string) => {
+    try {
+        const response = await axiosInstance.get(`/lancamentoFinanceiro/listarPorLogin?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar os Lançamentos Financeiros por login", error);
+        throw error;
+    }
+};
 
 
 export const postLancamentoFinanceiro = async (lancamentoData: {
