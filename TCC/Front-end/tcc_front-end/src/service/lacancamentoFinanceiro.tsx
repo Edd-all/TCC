@@ -30,6 +30,16 @@ export const getLancamentosFinanceirosByLogin = async (login: string) => {
     }
 };
 
+export const deleteLancamentosFinanceirosByLogin = async (login: string) => {
+    try {
+        const response = await axiosInstance.delete(`/lancamentoFinanceiro/deletarPorLogin?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar os Lançamentos Financeiros por login", error);
+        throw error;
+    }
+};
+
 
 export const postLancamentoFinanceiro = async (lancamentoData: {
             nome: string,

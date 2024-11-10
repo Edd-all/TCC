@@ -1,8 +1,10 @@
 package sg.comp.tcc.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,11 +44,21 @@ public class MetasFuturasController {
 	
 	
 	
-	//em fase de teste
+	
 		@GetMapping("/listarPorLogin")
 	    public List<MetasFuturasResponseDTO> listarMetasFuturasPorLogin(@RequestParam String login) {
 	        return service.listarMetasFuturasPorLogin(login);
 	    }
+		@DeleteMapping("/deletarPorLogin")
+	    public ResponseEntity<String> deletarMetasFuturasPorLogin(@RequestParam String login) {
+	        try {
+	            service.deletarMetasFuturasPorLogin(login);
+	            return ResponseEntity.ok("Lançamentos financeiros deletados com sucesso!");
+	        } catch (NoSuchElementException e) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	        }
+	    }
+		
 		
 		
 	

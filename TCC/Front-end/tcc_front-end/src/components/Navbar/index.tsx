@@ -12,7 +12,7 @@ export function Navbar() {
                 <Link className='ul' to="/Home">Home</Link>
                 <Link className='ul' to="/lancamentosFinanceiros">Area de Lançamentos</Link>
                 <Link className='ul' to="/metasFuturas">Area de Metas</Link>
-                <Link className='ul' to="/estatisticas">Estatisticas</Link>
+                <Link className='ul' to="/estatisticas">Insights</Link>
             </div>
         </nav>
     );

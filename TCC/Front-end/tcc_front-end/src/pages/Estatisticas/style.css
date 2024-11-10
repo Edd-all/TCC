@@ -58,4 +58,35 @@
     font-size: 18px;
     color: #333;
     font-weight: bold;
+    gap: 16px;
 }
+
+.botao-container{
+    display: flex;
+    gap: 16px; /* Espaçamento entre os botões */
+    margin-top: 16px;
+}
+
+.deletar-btn {
+    background-color: #dc2626; /* Vermelho escuro */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.deletar-btn:hover {
+    background-color: #ef4444; /* Vermelho mais claro no hover */
+}
+
+/* Garantir que o botão de deletar e outros estejam lado a lado */
+.saldo-total-container button {
+    display: inline-block;
+}
+
+.espaco {
+    padding-bottom: 20px; /* Adiciona um espaço de 20px entre os elementos */
+  }

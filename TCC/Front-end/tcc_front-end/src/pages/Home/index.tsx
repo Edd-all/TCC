@@ -18,7 +18,7 @@ export function Home(){
                     Se ainda não conhece a plataforma comece adicionando suas receitas e despesas na área de lançamentos financeiros acima ou as metas que deseja alcançar.
                 </p>
                 <p>
-                    A área de Estatisticas lhe fornecerá um feedback visual dos seus gastos após inseri-los no sistema.
+                    A área de Insights lhe fornecerá um feedback visual dos seus gastos após inseri-los no sistema.
                 </p>
 
                 

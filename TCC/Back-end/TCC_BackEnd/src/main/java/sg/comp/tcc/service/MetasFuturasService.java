@@ -42,7 +42,7 @@ public class MetasFuturasService {
 	}
 	
 	
-	//em fase de teste
+	
 		public List<MetasFuturasResponseDTO> listarMetasFuturasPorLogin(String login){
 			List<MetasFuturas> metas = repository.findByUsuarioLogin(login);
 		    
@@ -55,6 +55,15 @@ public class MetasFuturasService {
 		                      .collect(Collectors.toList());
 		}
 		
+		public void deletarMetasFuturasPorLogin(String login) {
+	        List<MetasFuturas> metas = repository.findByUsuarioLogin(login);
+	        
+	        if (metas.isEmpty()) {
+	            throw new NoSuchElementException("Nenhum lançamento financeiro encontrado para o login fornecido!");
+	        }
+	        
+	        repository.deleteAll(metas);  // Deleta todos os lançamentos encontrados
+	    }
 		
 	
 	public MetasFuturasResponseDTO cadastrarMetasFuturas(MetasFuturasRequestDTO metasFuturasRequestDTO) {

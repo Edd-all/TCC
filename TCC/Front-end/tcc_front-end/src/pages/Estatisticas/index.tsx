@@ -7,6 +7,9 @@ import { getMetasFuturasByLogin } from '../../service/metasFuturas';
 import { getUserIdFromToken } from '../../api/auth';
 import { getSaldoMensalByLogin } from '../../service/saldoMensal';
 
+import { deleteLancamentosFinanceirosByLogin } from '../../service/lacancamentoFinanceiro';
+import { deleteMetasFuturasByLogin } from '../../service/metasFuturas';
+
 interface LancamentoFinanceiro {
     nome: string;
     descricao: string;
@@ -112,6 +115,39 @@ export function Estatisticas() {
         }
     };
 
+    const handleDeletarLancamentos = async () => {
+        const userInfo = getUserIdFromToken();
+        if (userInfo) {
+            try {
+                await deleteLancamentosFinanceirosByLogin(userInfo.userId);
+                alert("Lançamentos financeiros deletados com sucesso!");
+                // Recarregar ou atualizar a lista de lançamentos financeiros
+                setLancamentos([]);
+            } catch (error) {
+                console.error("Erro ao deletar lançamentos financeiros:", error);
+                alert("Erro ao deletar lançamentos financeiros.");
+            }
+        } else {
+            console.error("Usuário não está logado ou token inválido");
+        }
+    };
+    
+    const handleDeletarMetasFuturas = async () => {
+        const userInfo = getUserIdFromToken();
+        if (userInfo) {
+            try {
+                await deleteMetasFuturasByLogin(userInfo.userId);
+                alert("Metas futuras deletadas com sucesso!");
+                // Recarregar ou atualizar a lista de metas futuras
+                setMetasFuturas([]);
+            } catch (error) {
+                console.error("Erro ao deletar metas futuras:", error);
+                alert("Erro ao deletar metas futuras.");
+            }
+        } else {
+            console.error("Usuário não está logado ou token inválido");
+        }
+    };
 
     const receitas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "R");
     const despesas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "D");
@@ -164,7 +200,7 @@ export function Estatisticas() {
                     </div>
 
                     <div className="metas-futuras">
-                        <h2>Metas Futuras</h2>
+                        <h2>Metas</h2>
                         {loading ? (
                             <p>Carregando...</p>
                         ) : metasFuturas.length > 0 ? (
@@ -177,7 +213,7 @@ export function Estatisticas() {
                                 ))}
                             </ul>
                         ) : (
-                            <p>Não há metas futuras para exibir.</p>
+                            <p>Não há metas para exibir.</p>
                         )}
                     </div>
 
@@ -187,10 +223,20 @@ export function Estatisticas() {
                         </button>
                         {saldoTotal !== null && saldoTotal !== undefined && (
                             <span className="saldo-total">
+                                
                                 Saldo Total: R${saldoTotal.toFixed(2)}
                             </span>
                         )}
+                        <div className="botao-container">
+                            <button className="deletar-btn" onClick={handleDeletarLancamentos}>
+                                Deletar Lançamentos
+                            </button>
+                            <button className="deletar-btn" onClick={handleDeletarMetasFuturas}>
+                                Deletar Metas
+                            </button>
+                        </div>
                     </div>
+
 
                 </div>
             </div>

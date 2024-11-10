@@ -2,8 +2,10 @@ package sg.comp.tcc.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,12 +44,23 @@ public class LancamentoFinanceiroController {
 	}
 	
 	
-	//em fase de teste
+	
 	@GetMapping("/listarPorLogin")
     public List<LancamentoFinanceiroResponseDTO> listarLancamentosPorLogin(@RequestParam String login) {
         return service.listarLancamentoFinanceiroPorLogin(login);
     }
 	
+	 @DeleteMapping("/deletarPorLogin")
+	    public ResponseEntity<String> deletarLancamentosPorLogin(@RequestParam String login) {
+	        try {
+	            service.deletarLancamentosFinanceirosPorLogin(login);
+	            return ResponseEntity.ok("Lançamentos financeiros deletados com sucesso!");
+	        } catch (NoSuchElementException e) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+	        }
+	    }
+	 
+	 
 	
 	
 	@PostMapping("/cadastrar")

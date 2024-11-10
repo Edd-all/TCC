@@ -46,7 +46,7 @@ public class LancamentoFincanceiroService {
 		}
 	}
 	
-	//em fase de teste
+	
 	public List<LancamentoFinanceiroResponseDTO> listarLancamentoFinanceiroPorLogin(String login){
 		List<LancamentoFinanceiro> lancamentos = repository.findByUsuarioLogin(login);
 	    
@@ -58,6 +58,19 @@ public class LancamentoFincanceiroService {
 	                      .map(LancamentoFinanceiroResponseDTO::new)
 	                      .collect(Collectors.toList());
 	}
+	
+	public void deletarLancamentosFinanceirosPorLogin(String login) {
+        List<LancamentoFinanceiro> lancamentos = repository.findByUsuarioLogin(login);
+        
+        if (lancamentos.isEmpty()) {
+            throw new NoSuchElementException("Nenhum lançamento financeiro encontrado para o login fornecido!");
+        }
+        
+        repository.deleteAll(lancamentos);  // Deleta todos os lançamentos encontrados
+    }
+	
+	
+	
 	
 	
 	public LancamentoFinanceiro buscarPorTipoLancamento(EnumReceitaDespesa tipoLancamento) {

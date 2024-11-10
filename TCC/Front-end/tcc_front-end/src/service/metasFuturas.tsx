@@ -30,7 +30,15 @@ export const getMetasFuturasByLogin = async (login: string) => {
     }
 };
 
-
+export const deleteMetasFuturasByLogin = async (login: string) => {
+    try {
+        const response = await axiosInstance.delete(`/metasFuturas/deletarPorLogin?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar as metas por login", error);
+        throw error;
+    }
+};
 
 export const postMetaFutura = async (metaFuturaData: {
     nome: string,
