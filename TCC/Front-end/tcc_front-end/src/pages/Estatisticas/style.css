@@ -36,4 +36,26 @@
     background-color: #ffebee;
 }
 
+.calcular-saldo-btn {
+    background-color: #1e3a8a; /* Azul escuro */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 16px;
+    display: block;
+    width: fit-content;
+}
 
+.calcular-saldo-btn:hover {
+    background-color: #3b82f6; /* Azul mais claro no hover */
+}
+
+.saldo-total {
+    margin-top: 16px;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}

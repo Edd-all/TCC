@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { getLancamentosFinanceirosByLogin } from '../../service/lacancamentoFinanceiro';
 import { getMetasFuturasByLogin } from '../../service/metasFuturas';
 import { getUserIdFromToken } from '../../api/auth';
+import { getSaldoMensalByLogin } from '../../service/saldoMensal';
 
 interface LancamentoFinanceiro {
     nome: string;
@@ -42,6 +43,7 @@ const tipoLancamentoMapeado: { [key: string]: string } = {
 export function Estatisticas() {
     const [lancamentos, setLancamentos] = useState<LancamentoFinanceiro[]>([]);
     const [metasFuturas, setMetasFuturas] = useState<MetaFutura[]>([]);
+    const [saldoTotal, setSaldoTotal] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -80,6 +82,36 @@ export function Estatisticas() {
         }
         return '';
     };
+
+    const calcularSaldoTotal = async () => {
+        try {
+            const login = getUserIdFromToken();
+            if (login && login.userId) {
+                
+                const response = await getSaldoMensalByLogin(login.userId);
+                // console.log("Resposta do backend:", response);
+                // console.log("Tipo de resposta:", typeof response);
+    
+                // Usando uma expressão regular para extrair o número da string
+                const match = response.match(/[\d.-]+/);  // Regex para encontrar números e ponto (para valores decimais)
+                if (match) {
+                    const saldo = parseFloat(match[0]); // Pega o número da primeira correspondência
+                    //console.log("Saldo após conversão:", saldo);
+                    setSaldoTotal(saldo);
+                } else {
+                    console.error("Não foi possível extrair o número da resposta");
+                    setSaldoTotal(0); 
+                }
+            } else {
+                console.error("Login do usuário não encontrado.");
+                setSaldoTotal(0); 
+            }
+        } catch (error) {
+            console.error("Erro ao calcular o saldo total", error);
+            setSaldoTotal(0); 
+        }
+    };
+
 
     const receitas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "R");
     const despesas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "D");
@@ -139,7 +171,8 @@ export function Estatisticas() {
                             <ul>
                                 {metasFuturas.map((meta, index) => (
                                     <li key={index}>
-                                        <strong>{meta.nome}</strong>: R${meta.valorGuardar.toFixed(2)}
+                                        <strong>{meta.nome}</strong> <br/>
+                                        R${meta.valorGuardar.toFixed(2)}
                                     </li>
                                 ))}
                             </ul>
@@ -147,6 +180,18 @@ export function Estatisticas() {
                             <p>Não há metas futuras para exibir.</p>
                         )}
                     </div>
+
+                    <div className="saldo-total-container">
+                        <button className="calcular-saldo-btn" onClick={calcularSaldoTotal}>
+                            Calcular Saldo Total
+                        </button>
+                        {saldoTotal !== null && saldoTotal !== undefined && (
+                            <span className="saldo-total">
+                                Saldo Total: R${saldoTotal.toFixed(2)}
+                            </span>
+                        )}
+                    </div>
+
                 </div>
             </div>
             <Footer />

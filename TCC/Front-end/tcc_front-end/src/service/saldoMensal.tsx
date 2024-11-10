@@ -22,3 +22,13 @@ export const getSaldosMensais = async () => {
 };
 
 
+export const getSaldoMensalByLogin = async (login: string) => {
+    try {
+        const response = await axiosInstance.get(`/saldoMensal/calcular?usuarioLogin=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar o saldo por login", error);
+        throw error;
+    }
+};
+
