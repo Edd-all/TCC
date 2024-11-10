@@ -3,6 +3,7 @@ import { Footer } from '../../components/Footer';
 import './style.css';
 import { useEffect, useState } from 'react';
 import { getLancamentosFinanceirosByLogin } from '../../service/lacancamentoFinanceiro';
+import { getMetasFuturasByLogin } from '../../service/metasFuturas';
 import { getUserIdFromToken } from '../../api/auth';
 
 interface LancamentoFinanceiro {
@@ -18,6 +19,11 @@ interface LancamentoFinanceiro {
     diaMes: number;
 }
 
+interface MetaFutura {
+    nome: string;
+    valorGuardar: number;
+}
+
 const diasDaSemanaMapeados: { [key: string]: string } = {
     "MONDAY": "Segunda-feira",
     "TUESDAY": "Terça-feira",
@@ -28,7 +34,6 @@ const diasDaSemanaMapeados: { [key: string]: string } = {
     "SUNDAY": "Domingo"
 };
 
-// Mapeamento de tipo de lançamento
 const tipoLancamentoMapeado: { [key: string]: string } = {
     "R": "Receita",
     "D": "Despesa"
@@ -36,18 +41,23 @@ const tipoLancamentoMapeado: { [key: string]: string } = {
 
 export function Estatisticas() {
     const [lancamentos, setLancamentos] = useState<LancamentoFinanceiro[]>([]);
+    const [metasFuturas, setMetasFuturas] = useState<MetaFutura[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchLancamentos = async () => {
+        const fetchData = async () => {
             const userInfo = getUserIdFromToken();
 
             if (userInfo) {
                 try {
-                    const dados = await getLancamentosFinanceirosByLogin(userInfo.userId);
-                    setLancamentos(dados);
+                    const [dadosLancamentos, dadosMetas] = await Promise.all([
+                        getLancamentosFinanceirosByLogin(userInfo.userId),
+                        getMetasFuturasByLogin(userInfo.userId)
+                    ]);
+                    setLancamentos(dadosLancamentos);
+                    setMetasFuturas(dadosMetas);
                 } catch (error) {
-                    console.error("Erro ao buscar lançamentos financeiros:", error);
+                    console.error("Erro ao buscar dados:", error);
                 } finally {
                     setLoading(false);
                 }
@@ -56,7 +66,7 @@ export function Estatisticas() {
             }
         };
 
-        fetchLancamentos();
+        fetchData();
     }, []);
 
     const formatarDataAgendamento = (lancamento: LancamentoFinanceiro) => {
@@ -71,32 +81,72 @@ export function Estatisticas() {
         return '';
     };
 
+    const receitas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "R");
+    const despesas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "D");
+
     return (
         <div className="home-container">
             <Navbar />
             <div className="content">
-                <div className="description">
-                    <h1>Área de Estatísticas</h1>
-                    <p>Aqui você pode ver gráficos dos seus lançamentos e acompanhar suas metas.</p>
-                </div>
+                <div className="lancamentos-container">
+                    <div className="top-row">
+                        <div className="receitas">
+                            <h2>Receitas</h2>
+                            {loading ? (
+                                <p>Carregando...</p>
+                            ) : receitas.length > 0 ? (
+                                <ul>
+                                    {receitas.map((lancamento, index) => (
+                                        <li key={index}>
+                                            <strong>{lancamento.nome}</strong>: <br />
+                                            {lancamento.descricao} <br />
+                                            R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
+                                            {formatarDataAgendamento(lancamento)}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>Não há receitas para exibir.</p>
+                            )}
+                        </div>
 
-                <div className="lancamentos">
-                    <h2>Lançamentos Financeiros</h2>
-                    {loading ? (
-                        <p>Carregando...</p>
-                    ) : lancamentos.length > 0 ? (
-                        <ul>
-                            {lancamentos.map((lancamento, index) => (
-                                <li key={index}>
-                                    <strong>{lancamento.nome}</strong>: {lancamento.descricao} - R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento] || lancamento.tipoLancamento})
-                                    <br />
-                                    {formatarDataAgendamento(lancamento)}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>Não há lançamentos financeiros para exibir.</p>
-                    )}
+                        <div className="despesas">
+                            <h2>Despesas</h2>
+                            {loading ? (
+                                <p>Carregando...</p>
+                            ) : despesas.length > 0 ? (
+                                <ul>
+                                    {despesas.map((lancamento, index) => (
+                                        <li key={index}>
+                                            <strong>{lancamento.nome}</strong>: <br />
+                                            {lancamento.descricao} <br />
+                                            R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
+                                            {formatarDataAgendamento(lancamento)}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>Não há despesas para exibir.</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="metas-futuras">
+                        <h2>Metas Futuras</h2>
+                        {loading ? (
+                            <p>Carregando...</p>
+                        ) : metasFuturas.length > 0 ? (
+                            <ul>
+                                {metasFuturas.map((meta, index) => (
+                                    <li key={index}>
+                                        <strong>{meta.nome}</strong>: R${meta.valorGuardar.toFixed(2)}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Não há metas futuras para exibir.</p>
+                        )}
+                    </div>
                 </div>
             </div>
             <Footer />
