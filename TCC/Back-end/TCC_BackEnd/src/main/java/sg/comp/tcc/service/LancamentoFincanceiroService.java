@@ -70,7 +70,20 @@ public class LancamentoFincanceiroService {
     }
 	
 	
-	
+	public LancamentoFinanceiroResponseDTO listarLancamentoFinanceiroPorLoginEId(String login, Long id) {
+	    Optional<LancamentoFinanceiro> lancamentoOptional = repository.findById(id);
+
+	    if (lancamentoOptional.isEmpty()) {
+	        throw new NoSuchElementException("Lançamento financeiro não encontrado!");
+	    }
+
+	    LancamentoFinanceiro lancamento = lancamentoOptional.get();
+	    if (!lancamento.getUsuario().getLogin().equals(login)) {
+	        throw new IllegalArgumentException("Login não corresponde ao usuário do lançamento!");
+	    }
+
+	    return new LancamentoFinanceiroResponseDTO(lancamento);
+	}
 	
 	
 	public LancamentoFinanceiro buscarPorTipoLancamento(EnumReceitaDespesa tipoLancamento) {
@@ -150,6 +163,55 @@ public class LancamentoFincanceiroService {
             throw new NoSuchElementException("Lancamento financeiro não encontrado!");
         }
 	}
+	
+	
+	public LancamentoFinanceiroResponseDTO atualizarLancamentoPorLoginEId(String login, Long id, LancamentoFinanceiroRequestDTO lancamentoFinanceiroRequestDTO) {
+	    Optional<LancamentoFinanceiro> lancamentoOptional = repository.findById(id);
+
+	    if (lancamentoOptional.isPresent()) {
+	        LancamentoFinanceiro lancamento = lancamentoOptional.get();
+
+	        // Verifica se o login está associado ao lançamento
+	        if (!lancamento.getUsuario().getLogin().equals(login)) {
+	            throw new IllegalArgumentException("O lançamento financeiro não pertence ao usuário com o login fornecido.");
+	        }
+
+	        // Atualiza os dados do lançamento
+	        lancamento.setNome(lancamentoFinanceiroRequestDTO.getNome());
+	        lancamento.setDescricao(lancamentoFinanceiroRequestDTO.getDescricao());
+	        lancamento.setValor(lancamentoFinanceiroRequestDTO.getValor());
+	        lancamento.setDataCriacao(lancamentoFinanceiroRequestDTO.getDataCriacao());
+	        lancamento.setTipoLancamento(lancamentoFinanceiroRequestDTO.getTipoLancamento());
+	        lancamento.setTipoAgendamento(lancamentoFinanceiroRequestDTO.getTipoAgendamento());
+	        lancamento.setDiaEspecifico(lancamentoFinanceiroRequestDTO.getDiaEspecifico());
+	        lancamento.setDiaSemana(lancamentoFinanceiroRequestDTO.getDiaSemana());
+	        lancamento.setDiaMes(lancamentoFinanceiroRequestDTO.getDiaMes());
+
+	        LancamentoFinanceiro atualizado = repository.save(lancamento);
+	        return new LancamentoFinanceiroResponseDTO(atualizado);
+	    } else {
+	        throw new NoSuchElementException("Lançamento financeiro não encontrado!");
+	    }
+	}
+
+	public void deletarLancamentoPorLoginEId(String login, Long id) {
+	    Optional<LancamentoFinanceiro> lancamentoOptional = repository.findById(id);
+
+	    if (lancamentoOptional.isPresent()) {
+	        LancamentoFinanceiro lancamento = lancamentoOptional.get();
+
+	        // Verifica se o login está associado ao lançamento
+	        if (!lancamento.getUsuario().getLogin().equals(login)) {
+	            throw new IllegalArgumentException("O lançamento financeiro não pertence ao usuário com o login fornecido.");
+	        }
+
+	        repository.deleteById(id);
+	    } else {
+	        throw new NoSuchElementException("Lançamento financeiro não encontrado!");
+	    }
+	}
+	
+	
 	
 	
 	  public void executaAgendamentos() {

@@ -61,6 +61,40 @@ public class MetasFuturasController {
 		
 		
 		
+		@GetMapping("/listarPorLoginEId/{id}")
+		public ResponseEntity<MetasFuturasResponseDTO> listarMetaFuturaPorLoginEId(
+		        @PathVariable Long id,
+		        @RequestParam String login) {
+		    try {
+		        return ResponseEntity.ok(service.listarMetaFuturaPorLoginEId(login, id));
+		    } catch (NoSuchElementException e) {
+		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		    } catch (IllegalArgumentException e) {
+		        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		    }
+		}
+		
+		@PutMapping("/atualizarPorLoginEId/{id}")
+		public ResponseEntity<MetasFuturasResponseDTO> atualizarMetaFuturaPorLoginEId(
+		        @PathVariable Long id,
+		        @RequestParam String login,
+		        @Valid @RequestBody MetasFuturasRequestDTO metasFuturasRequestDTO) {
+		    return ResponseEntity.ok(service.atualizarMetaFuturaPorLoginEId(id, login, metasFuturasRequestDTO));
+		}
+		
+		@DeleteMapping("/deletarPorLoginEId/{id}")
+		public ResponseEntity<String> deletarMetaFuturaPorLoginEId(@PathVariable Long id, @RequestParam String login) {
+		    try {
+		        service.deletarMetaFuturaPorLoginEId(id, login);
+		        return ResponseEntity.ok("Meta futura deletada com sucesso!");
+		    } catch (NoSuchElementException e) {
+		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		    } catch (IllegalArgumentException e) {
+		        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		    }
+		}
+		
+		
 	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<MetasFuturasResponseDTO> cadastrarMetasFuturas(

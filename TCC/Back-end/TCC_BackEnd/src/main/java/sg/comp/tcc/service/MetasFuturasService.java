@@ -105,4 +105,57 @@ public class MetasFuturasService {
 		}
 	}
 	
+	
+	public MetasFuturasResponseDTO listarMetaFuturaPorLoginEId(String login, Long id) {
+	    Optional<MetasFuturas> metaOptional = repository.findById(id);
+
+	    if (metaOptional.isEmpty()) {
+	        throw new NoSuchElementException("Meta não encontrada!");
+	    }
+
+	    MetasFuturas meta = metaOptional.get();
+	    if (!meta.getUsuario().getLogin().equals(login)) {
+	        throw new IllegalArgumentException("Login não corresponde ao usuário da meta!");
+	    }
+
+	    return new MetasFuturasResponseDTO(meta);
+	}
+	
+	public MetasFuturasResponseDTO atualizarMetaFuturaPorLoginEId(Long id, String login, MetasFuturasRequestDTO metasFuturasRequestDTO) {
+	    Optional<MetasFuturas> metaOptional = repository.findById(id);
+
+	    if (metaOptional.isEmpty()) {
+	        throw new NoSuchElementException("Meta não encontrada!");
+	    }
+
+	    MetasFuturas meta = metaOptional.get();
+	    if (!meta.getUsuario().getLogin().equals(login)) {
+	        throw new IllegalArgumentException("Login não corresponde ao usuário da meta!");
+	    }
+
+	    Usuario usuario = usuarioService.buscarPorLogin(login);
+	    meta.setNome(metasFuturasRequestDTO.getNome());
+	    meta.setValorGuardar(metasFuturasRequestDTO.getValorGuardar());
+	    meta.setUsuario(usuario);
+
+	    return new MetasFuturasResponseDTO(repository.save(meta));
+	}
+	
+	public void deletarMetaFuturaPorLoginEId(Long id, String login) {
+	    Optional<MetasFuturas> metaOptional = repository.findById(id);
+
+	    if (metaOptional.isEmpty()) {
+	        throw new NoSuchElementException("Meta não encontrada!");
+	    }
+
+	    MetasFuturas meta = metaOptional.get();
+	    if (!meta.getUsuario().getLogin().equals(login)) {
+	        throw new IllegalArgumentException("Login não corresponde ao usuário da meta!");
+	    }
+
+	    repository.delete(meta);
+	}
+	
+	
+	
 }

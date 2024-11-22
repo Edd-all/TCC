@@ -215,8 +215,7 @@ export function Estatisticas() {
                         ) : (
                             <p>Não há metas para exibir.</p>
                         )}
-                    </div>
-
+                    </div>                        
                     <div className="saldo-total-container">
                         <button className="calcular-saldo-btn" onClick={calcularSaldoTotal}>
                             Calcular Saldo Total

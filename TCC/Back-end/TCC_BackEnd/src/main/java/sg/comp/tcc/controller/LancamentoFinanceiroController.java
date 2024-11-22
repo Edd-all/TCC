@@ -61,6 +61,51 @@ public class LancamentoFinanceiroController {
 	    }
 	 
 	 
+	 
+	 
+	 @GetMapping("/listarPorLoginEId/{id}")
+	 public ResponseEntity<LancamentoFinanceiroResponseDTO> listarLancamentoFinanceiroPorLoginEId(
+	         @PathVariable Long id,
+	         @RequestParam String login) {
+	     try {
+	         return ResponseEntity.ok(service.listarLancamentoFinanceiroPorLoginEId(login, id));
+	     } catch (NoSuchElementException e) {
+	         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	     } catch (IllegalArgumentException e) {
+	         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	     }
+	 }
+	 
+	 @PutMapping("/atualizarPorLogin/{id}")
+	 public ResponseEntity<LancamentoFinanceiroResponseDTO> atualizarLancamentoPorLoginEId(
+	         @RequestParam String login,
+	         @PathVariable Long id,
+	         @Valid @RequestBody LancamentoFinanceiroRequestDTO lancamentoFinanceiroRequestDTO) {
+	     try {
+	         LancamentoFinanceiroResponseDTO atualizado = service.atualizarLancamentoPorLoginEId(login, id, lancamentoFinanceiroRequestDTO);
+	         return ResponseEntity.ok(atualizado);
+	     } catch (IllegalArgumentException e) {
+	         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null); // Ação proibida
+	     } catch (NoSuchElementException e) {
+	         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Lançamento não encontrado
+	     }
+	 }
+
+	 @DeleteMapping("/deletarPorLoginEId/{id}")
+	 public ResponseEntity<String> deletarLancamentoPorLoginEId(
+	         @RequestParam String login,
+	         @PathVariable Long id) {
+	     try {
+	         service.deletarLancamentoPorLoginEId(login, id);
+	         return ResponseEntity.ok("Lançamento financeiro deletado com sucesso!");
+	     } catch (IllegalArgumentException e) {
+	         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("O lançamento financeiro não pertence ao usuário com o login fornecido.");
+	     } catch (NoSuchElementException e) {
+	         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lançamento financeiro não encontrado!");
+	     }
+	 }
+	 
+	 
 	
 	
 	@PostMapping("/cadastrar")
