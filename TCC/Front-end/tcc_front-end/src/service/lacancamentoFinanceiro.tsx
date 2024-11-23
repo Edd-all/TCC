@@ -62,3 +62,54 @@ export const postLancamentoFinanceiro = async (lancamentoData: {
         throw error;
     }
 };
+
+
+//em fase de testes
+
+export const getLancamentoFinanceiroByLoginAndId = async (login: string, id: number) => {
+    try {
+        const response = await axiosInstance.get(`/lancamentoFinanceiro/listarPorLoginEId/${id}?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar o Lançamento Financeiro por login e ID", error);
+        throw error;
+    }
+};
+
+export const updateLancamentoFinanceiroByLoginAndId = async (
+    login: string,
+    id: number,
+    lancamentoData: {
+        nome?: string,
+        descricao?: string,
+        valor?: number,
+        tipoLancamento?: string,
+        tipoAgendamento?: string | null,
+        diaEspecifico?: Date | string,
+        diaSemana?: string | null,
+        diaMes?: number | null
+    }
+) => {
+    try {
+        const response = await axiosInstance.put(
+            `/lancamentoFinanceiro/atualizarPorLoginEId/${id}?login=${login}`,
+            lancamentoData
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao atualizar o Lançamento Financeiro por login e ID", error);
+        throw error;
+    }
+};
+
+export const deleteLancamentoFinanceiroByLoginAndId = async (login: string, id: number) => {
+    try {
+        const response = await axiosInstance.delete(`/lancamentoFinanceiro/deletarPorLoginEId/${id}?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao deletar o Lançamento Financeiro por login e ID", error);
+        throw error;
+    }
+};
+
+

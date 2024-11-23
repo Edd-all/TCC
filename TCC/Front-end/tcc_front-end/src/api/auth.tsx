@@ -50,6 +50,7 @@ interface JwtPayload {
 
   export const getUserIdFromToken = (): { userId: string, username: string } | null => {
     const token = localStorage.getItem('token');
+    
     if (token) {
         try {
             const decodedToken = jwtDecode<JwtPayload>(token);
@@ -63,4 +64,21 @@ interface JwtPayload {
     return null;
 };
   
+export const getUserLoginFromToken = (): string | null => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        console.error("Token não encontrado no localStorage.");
+        return null;
+    }
+
+    try {
+        const decoded: { sub: string } = jwtDecode(token); // Inclua apenas as propriedades que você precisa
+        console.log("Token decodificado:", decoded); // Log para depuração
+        return decoded.sub; // Retorna o `sub` como login
+    } catch (error) {
+        console.error("Erro ao decodificar token:", error);
+        return null;
+    }
+};
+
 

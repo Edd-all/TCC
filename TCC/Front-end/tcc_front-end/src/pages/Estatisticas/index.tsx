@@ -4,13 +4,16 @@ import './style.css';
 import { useEffect, useState } from 'react';
 import { getLancamentosFinanceirosByLogin } from '../../service/lacancamentoFinanceiro';
 import { getMetasFuturasByLogin } from '../../service/metasFuturas';
-import { getUserIdFromToken } from '../../api/auth';
+
+import { getUserIdFromToken, getUserLoginFromToken } from '../../api/auth';
+
 import { getSaldoMensalByLogin } from '../../service/saldoMensal';
 
-import { deleteLancamentosFinanceirosByLogin } from '../../service/lacancamentoFinanceiro';
-import { deleteMetasFuturasByLogin } from '../../service/metasFuturas';
+import { deleteLancamentosFinanceirosByLogin, deleteLancamentoFinanceiroByLoginAndId } from '../../service/lacancamentoFinanceiro';
+import { deleteMetasFuturasByLogin, deleteMetaFuturaByLoginAndId } from '../../service/metasFuturas';
 
 interface LancamentoFinanceiro {
+    id: number; // Adicionado o ID
     nome: string;
     descricao: string;
     valor: number;
@@ -24,6 +27,7 @@ interface LancamentoFinanceiro {
 }
 
 interface MetaFutura {
+    id: number; // Adicionado o ID
     nome: string;
     valorGuardar: number;
 }
@@ -149,6 +153,64 @@ export function Estatisticas() {
         }
     };
 
+
+
+
+    const handleEditarLancamento = (id: number) => {
+        console.log("Editar Lançamento ID:", id);
+        // Redirecionar para a página de edição ou abrir modal
+    };
+    
+    const handleEditarMeta = (id: number) => {
+        console.log("Editar Meta ID:", id);
+        // Redirecionar para a página de edição ou abrir modal
+    };
+
+    const handleDeletarLancamento = async (id: number) => {
+        try {
+            const login = getUserLoginFromToken(); // Obtém o login do token
+            if (!login) {
+                alert("Erro: Login não encontrado.");
+                return;
+            }
+    
+            await deleteLancamentoFinanceiroByLoginAndId(login, id); // Passa login e ID
+            alert("Lançamento deletado com sucesso!");
+    
+            // Atualiza a lista de lançamentos localmente
+            setLancamentos((prevLancamentos) =>
+                prevLancamentos.filter((l) => l.id !== id)
+            );
+        } catch (error) {
+            console.error("Erro ao deletar lançamento:", error);
+            alert("Erro ao deletar lançamento.");
+        }
+    };
+    
+    const handleDeletarMeta = async (id: number) => {
+        try {
+            const login = getUserLoginFromToken(); // Obtém o login do token
+            if (!login) {
+                alert("Erro: Login não encontrado.");
+                return;
+            }
+    
+            await deleteMetaFuturaByLoginAndId(login, id); // Passa login e ID
+            alert("Meta deletada com sucesso!");
+    
+            // Atualiza a lista de metas localmente
+            setMetasFuturas((prevMetas) =>
+                prevMetas.filter((meta) => meta.id !== id)
+            );
+        } catch (error) {
+            console.error("Erro ao deletar meta:", error);
+            alert("Erro ao deletar meta.");
+        }
+    };
+
+
+
+
     const receitas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "R");
     const despesas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "D");
 
@@ -164,14 +226,36 @@ export function Estatisticas() {
                                 <p>Carregando...</p>
                             ) : receitas.length > 0 ? (
                                 <ul>
-                                    {receitas.map((lancamento, index) => (
+                                    {/* {receitas.map((lancamento, index) => (
                                         <li key={index}>
                                             <strong>{lancamento.nome}</strong>: <br />
                                             {lancamento.descricao} <br />
                                             R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
                                             {formatarDataAgendamento(lancamento)}
                                         </li>
-                                    ))}
+                                    ))} */}
+
+                                        {receitas.map((lancamento) => (
+                                                <li key={lancamento.id}>
+                                                    <strong>{lancamento.nome}</strong>: <br />
+                                                    {lancamento.descricao} <br />
+                                                    R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
+                                                    {formatarDataAgendamento(lancamento)} <br />
+                                                    <button
+                                                        className="editar-btn"
+                                                        onClick={() => handleEditarLancamento(lancamento.id)}
+                                                    >
+                                                        Editar
+                                                    </button>
+                                                    <button
+                                                        className="deletar-btn"
+                                                        onClick={() => handleDeletarLancamento(lancamento.id)}
+                                                    >
+                                                        Deletar
+                                                    </button>
+                                                </li>
+                                            ))}
+
                                 </ul>
                             ) : (
                                 <p>Não há receitas para exibir.</p>
@@ -184,14 +268,36 @@ export function Estatisticas() {
                                 <p>Carregando...</p>
                             ) : despesas.length > 0 ? (
                                 <ul>
-                                    {despesas.map((lancamento, index) => (
+                                    {/* {despesas.map((lancamento, index) => (
                                         <li key={index}>
                                             <strong>{lancamento.nome}</strong>: <br />
                                             {lancamento.descricao} <br />
                                             R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
                                             {formatarDataAgendamento(lancamento)}
                                         </li>
-                                    ))}
+                                    ))} */}
+
+                                    {despesas.map((lancamento) => (
+                                            <li key={lancamento.id}>
+                                                <strong>{lancamento.nome}</strong>: <br />
+                                                {lancamento.descricao} <br />
+                                                R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
+                                                {formatarDataAgendamento(lancamento)} <br />
+                                                <button
+                                                    className="editar-btn"
+                                                    onClick={() => handleEditarLancamento(lancamento.id)}
+                                                >
+                                                    Editar
+                                                </button>
+                                                <button
+                                                    className="deletar-btn"
+                                                    onClick={() => handleDeletarLancamento(lancamento.id)}
+                                                >
+                                                    Deletar
+                                                </button>
+                                            </li>
+                                        ))}
+
                                 </ul>
                             ) : (
                                 <p>Não há despesas para exibir.</p>
@@ -205,12 +311,31 @@ export function Estatisticas() {
                             <p>Carregando...</p>
                         ) : metasFuturas.length > 0 ? (
                             <ul>
-                                {metasFuturas.map((meta, index) => (
+                                {/* {metasFuturas.map((meta, index) => (
                                     <li key={index}>
                                         <strong>{meta.nome}</strong> <br/>
                                         R${meta.valorGuardar.toFixed(2)}
                                     </li>
-                                ))}
+                                ))} */}
+
+                                {metasFuturas.map((meta) => (
+                                        <li key={meta.id}>
+                                            <strong>{meta.nome}</strong>: <br />
+                                            R${meta.valorGuardar.toFixed(2)} <br />
+                                            <button
+                                                className="editar-btn"
+                                                onClick={() => handleEditarMeta(meta.id)}
+                                            >
+                                                Editar
+                                            </button>
+                                            <button
+                                                className="deletar-btn"
+                                                onClick={() => handleDeletarMeta(meta.id)}
+                                            >
+                                                Deletar
+                                            </button>
+                                        </li>
+                                    ))}
                             </ul>
                         ) : (
                             <p>Não há metas para exibir.</p>

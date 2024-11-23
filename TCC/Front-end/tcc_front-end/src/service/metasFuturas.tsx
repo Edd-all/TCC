@@ -55,3 +55,43 @@ export const postMetaFutura = async (metaFuturaData: {
     }
 };
 
+
+export const getMetaFuturaByLoginAndId = async (login: string, id: number) => {
+    try {
+        const response = await axiosInstance.get(`/metasFuturas/listarPorLoginEId/${id}?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar a Meta por login e ID", error);
+        throw error;
+    }
+};
+
+export const updateMetaFuturaByLoginAndId = async (
+    login: string,
+    id: number,
+    metaFuturaData: {
+        nome?: string,
+        valorGuardar?: number
+    }
+) => {
+    try {
+        const response = await axiosInstance.put(
+            `/metasFuturas/atualizarPorLoginEId/${id}?login=${login}`,
+            metaFuturaData
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao atualizar a Meta por login e ID", error);
+        throw error;
+    }
+};
+
+export const deleteMetaFuturaByLoginAndId = async (login: string, id: number) => {
+    try {
+        const response = await axiosInstance.delete(`/metasFuturas/deletarPorLoginEId/${id}?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao deletar a Meta por login e ID", error);
+        throw error;
+    }
+};

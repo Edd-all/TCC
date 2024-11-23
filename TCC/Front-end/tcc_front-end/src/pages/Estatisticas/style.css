@@ -87,3 +87,38 @@
     display: inline-block;
 }
 
+.acoes {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+}
+
+.editar-btn {
+    background-color: #2563eb; /* Azul escuro */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.editar-btn:hover {
+    background-color: #3b82f6; /* Azul mais claro no hover */
+}
+
+.deletar-btn {
+    background-color: #dc2626; /* Vermelho escuro */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.deletar-btn:hover {
+    background-color: #ef4444; /* Vermelho mais claro no hover */
+}
