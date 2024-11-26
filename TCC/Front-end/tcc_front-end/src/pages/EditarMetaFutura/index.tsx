@@ -41,15 +41,28 @@ export default function EditarMetaFutura() {
     <div className="home-container">
       <Navbar />
       <div className="content">
-        <h2>Editar Meta</h2>
-        <form onSubmit={handleSubmit} className="meta-form">
-          <label>Nome</label>
-          <input value={nome} onChange={(e) => setNome(e.target.value)} />
-
-          <label>Valor a Guardar</label>
-          <input type="number" value={valorGuardar} onChange={(e) => setValorGuardar(Number(e.target.value))} />
-
-          <button type="submit">Salvar</button>
+        <form onSubmit={handleSubmit} className="add-meta-form">
+          <h1>Editar Meta</h1>
+          
+          <label htmlFor="nome">Nome da Meta</label>
+          <input
+            id="nome"
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />
+          
+          <label htmlFor="valorGuardar">Valor a Guardar</label>
+          <input
+            id="valorGuardar"
+            type="number"
+            value={valorGuardar}
+            onChange={(e) => setValorGuardar(Number(e.target.value))}
+            required
+          />
+          
+          <button type="submit" className="submit-btn">Salvar Alterações</button>
         </form>
       </div>
       <Footer />

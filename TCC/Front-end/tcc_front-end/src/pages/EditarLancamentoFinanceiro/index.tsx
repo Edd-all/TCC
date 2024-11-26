@@ -63,88 +63,113 @@ export default function EditarLancamentoFinanceiro() {
   return (
     <div className="home-container">
       <Navbar />
+
       <div className="content">
-        <h2>Editar Lançamento</h2>
-        <form onSubmit={handleSubmit} className="lancamento-form">
-          <label>Nome</label>
-          <input value={nome} onChange={(e) => setNome(e.target.value)} />
+        <div className="add-lancamento">
+          <h2>Editar Lançamento</h2>
+          <form onSubmit={handleSubmit} className="lancamento-form">
+            <label htmlFor="nome">Nome</label>
+            <input 
+              type="text" 
+              id="nome" 
+              value={nome} 
+              onChange={(e) => setNome(e.target.value)} 
+              placeholder="Nome do lançamento"
+            />
 
-          <label>Descrição</label>
-          <textarea value={descricao} onChange={(e) => setDescricao(e.target.value)} />
+            <label htmlFor="descricao">Descrição</label>
+            <textarea
+              id="descricao"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+              rows={3}
+              placeholder="Descrição do lançamento"
+              className="descricao-textarea"
+            ></textarea>
 
-          <label>Valor</label>
-          <input
-            type="number"
-            value={valor}
-            onChange={(e) => setValor(Number(e.target.value))}
-          />
+            <label htmlFor="valor">Valor</label>
+            <input 
+              type="number" 
+              id="valor" 
+              value={valor} 
+              onChange={(e) => setValor(Number(e.target.value))} 
+              placeholder="Valor do lançamento"
+              min={0}
+            />
 
-          <label>Tipo de Lançamento</label>
-          <select
-            value={tipoLancamento}
-            onChange={(e) => setTipoLancamento(e.target.value)}
-          >
-            <option value="R">Receita</option>
-            <option value="D">Despesa</option>
-          </select>
+            <label htmlFor="tipo">Tipo</label>
+            <select 
+              id="tipo" 
+              value={tipoLancamento} 
+              onChange={(e) => setTipoLancamento(e.target.value)}
+            >
+              <option value="R">Receita</option>
+              <option value="D">Despesa</option>
+            </select>
 
-          <label>Tipo de Agendamento</label>
-          <select
-            value={tipoAgendamento}
-            onChange={(e) => setTipoAgendamento(e.target.value)}
-          >
-            <option value="">Sem agendamento</option>
-            <option value="D">Dia Específico</option>
-            <option value="S">Dia da Semana</option>
-            <option value="M">Dia do Mês</option>
-          </select>
+            <label htmlFor="tipoAgendamento">Tipo de Agendamento</label>
+            <select 
+              id="tipoAgendamento" 
+              value={tipoAgendamento} 
+              onChange={(e) => setTipoAgendamento(e.target.value)}
+            >
+              <option value="D">Data Específica</option>
+              <option value="S">Dia da Semana</option>
+              <option value="M">Dia do Mês</option>
+            </select>
 
-          {tipoAgendamento === 'D' && (
-            <>
-              <label>Data</label>
-              <input
-                type="date"
-                value={data}
-                onChange={(e) => setData(e.target.value)}
-              />
-            </>
-          )}
+            {tipoAgendamento === 'D' && (
+              <div>
+                <label htmlFor="data">Data</label>
+                <br/>
+                <input 
+                  type="date" 
+                  id="data" 
+                  value={data} 
+                  onChange={(e) => setData(e.target.value)} 
+                />
+              </div>
+            )}
 
-          {tipoAgendamento === 'S' && (
-            <>
-              <label>Dia da Semana</label>
-              <select
-                value={diaSemana}
-                onChange={(e) => setDiaSemana(e.target.value)}
-              >
-                <option value="">Selecione</option>
-                <option value="MONDAY">Segunda-feira</option>
-                <option value="TUESDAY">Terça-feira</option>
-                <option value="WEDNESDAY">Quarta-feira</option>
-                <option value="THURSDAY">Quinta-feira</option>
-                <option value="FRIDAY">Sexta-feira</option>
-                <option value="SATURDAY">Sábado</option>
-                <option value="SUNDAY">Domingo</option>
-              </select>
-            </>
-          )}
+            {tipoAgendamento === 'S' && (
+              <div>
+                <label htmlFor="diaSemana">Dia da Semana</label>
+                <br/>
+                <select 
+                  id="diaSemana" 
+                  value={diaSemana} 
+                  onChange={(e) => setDiaSemana(e.target.value)}
+                >
+                  <option value="DOMINGO">Domingo</option>
+                  <option value="SEGUNDA_FEIRA">Segunda-feira</option>
+                  <option value="TERCA_FEIRA">Terça-feira</option>
+                  <option value="QUARTA_FEIRA">Quarta-feira</option>
+                  <option value="QUINTA_FEIRA">Quinta-feira</option>
+                  <option value="SEXTA_FEIRA">Sexta-feira</option>
+                  <option value="SABADO">Sábado</option>
+                </select>
+              </div>
+            )}
 
-          {tipoAgendamento === 'M' && (
-            <>
-              <label>Dia do Mês</label>
-              <input
-                type="number"
-                value={diaMes || ''}
-                onChange={(e) => setDiaMes(Number(e.target.value))}
-                min="1"
-                max="31"
-              />
-            </>
-          )}
+            {tipoAgendamento === 'M' && (
+              <div>
+                <label htmlFor="diaMes">Dia do Mês</label>
+                <br/>
+                <input 
+                  type="number" 
+                  id="diaMes" 
+                  value={diaMes || 0} 
+                  onChange={(e) => setDiaMes(Number(e.target.value))} 
+                  placeholder="Dia do mês"
+                />
+              </div>
+            )}
 
-          <button type="submit" className="submit-btn">Salvar</button>
-        </form>
+            <button type="submit" className="submit-btn">Salvar Alterações</button>
+          </form>
+        </div>
       </div>
+
       <Footer />
     </div>
   );

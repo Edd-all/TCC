@@ -111,6 +111,7 @@ export function LancamentosFinanceiros() {
                         {tipoAgendamento === 'D' && (
                             <div>
                                 <label htmlFor="data">Data</label>
+                                <br/>
                                 <input 
                                     type="date" 
                                     id="data" 
@@ -123,6 +124,7 @@ export function LancamentosFinanceiros() {
                         {tipoAgendamento === 'S' && (
                             <div>
                                 <label htmlFor="diaSemana">Dia da Semana</label>
+                                <br/>
                                 <select 
                                     id="diaSemana" 
                                     value={diaSemana} 
@@ -143,6 +145,7 @@ export function LancamentosFinanceiros() {
                         {tipoAgendamento === 'M' && (
                             <div>
                                 <label htmlFor="diaMes">Dia do Mês</label>
+                                <br/>
                                 <input 
                                     type="number" 
                                     id="diaMes" 
