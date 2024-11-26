@@ -76,7 +76,7 @@ public class LancamentoFinanceiroController {
 	     }
 	 }
 	 
-	 @PutMapping("/atualizarPorLogin/{id}")
+	 @PutMapping("/atualizarPorLoginEId/{id}")
 	 public ResponseEntity<LancamentoFinanceiroResponseDTO> atualizarLancamentoPorLoginEId(
 	         @RequestParam String login,
 	         @PathVariable Long id,

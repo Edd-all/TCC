@@ -76,7 +76,18 @@ export const getLancamentoFinanceiroByLoginAndId = async (login: string, id: num
     }
 };
 
-export const updateLancamentoFinanceiroByLoginAndId = async (
+export const deleteLancamentoFinanceiroByLoginAndId = async (login: string, id: number) => {
+    try {
+        const response = await axiosInstance.delete(`/lancamentoFinanceiro/deletarPorLoginEId/${id}?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao deletar o Lançamento Financeiro por login e ID", error);
+        throw error;
+    }
+};
+
+
+export const updateLancamentoFinanceiro = async (
     login: string,
     id: number,
     lancamentoData: {
@@ -101,15 +112,3 @@ export const updateLancamentoFinanceiroByLoginAndId = async (
         throw error;
     }
 };
-
-export const deleteLancamentoFinanceiroByLoginAndId = async (login: string, id: number) => {
-    try {
-        const response = await axiosInstance.delete(`/lancamentoFinanceiro/deletarPorLoginEId/${id}?login=${login}`);
-        return response.data;
-    } catch (error) {
-        console.error("Erro ao deletar o Lançamento Financeiro por login e ID", error);
-        throw error;
-    }
-};
-
-

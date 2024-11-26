@@ -7,7 +7,10 @@ import { MetasFuturas } from "../pages/MetasFuturas";
 import { Estatisticas } from "../pages/Estatisticas";
 import { Ativacao } from '../pages/Ativacao';
 import { TelaInicial } from '../pages/TelaInicial';
-import { PrivateRoute } from './PrivateRoute';  // Importa o componente de rota protegida
+import { PrivateRoute } from './PrivateRoute'; 
+
+import EditarLancamentoFinanceiro from '../pages/EditarLancamentoFinanceiro';
+import EditarMetaFutura from '../pages/EditarMetaFutura';
 
 export const AppRoutes = () => {
     return (
@@ -24,6 +27,10 @@ export const AppRoutes = () => {
                 <Route path="/lancamentosFinanceiros" element={<PrivateRoute element={<LancamentosFinanceiros />} />} />
                 <Route path="/metasFuturas" element={<PrivateRoute element={<MetasFuturas />} />} />
                 <Route path="/estatisticas" element={<PrivateRoute element={<Estatisticas />} />} />
+
+                {/* Outras rotas */}
+                <Route path="/editar-lancamento/:id" element={<PrivateRoute element={<EditarLancamentoFinanceiro />} />} />
+                <Route path="/editar-meta/:id" element={ <PrivateRoute element={<EditarMetaFutura />} />} />
             </Routes>
         </Router>
     );

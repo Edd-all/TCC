@@ -9,11 +9,14 @@ import { getUserIdFromToken, getUserLoginFromToken } from '../../api/auth';
 
 import { getSaldoMensalByLogin } from '../../service/saldoMensal';
 
-import { deleteLancamentosFinanceirosByLogin, deleteLancamentoFinanceiroByLoginAndId } from '../../service/lacancamentoFinanceiro';
-import { deleteMetasFuturasByLogin, deleteMetaFuturaByLoginAndId } from '../../service/metasFuturas';
+import { deleteLancamentoFinanceiroByLoginAndId } from '../../service/lacancamentoFinanceiro';
+import { deleteMetaFuturaByLoginAndId } from '../../service/metasFuturas';
+
+import { useNavigate } from 'react-router-dom';
+
 
 interface LancamentoFinanceiro {
-    id: number; // Adicionado o ID
+    id: number; 
     nome: string;
     descricao: string;
     valor: number;
@@ -27,7 +30,7 @@ interface LancamentoFinanceiro {
 }
 
 interface MetaFutura {
-    id: number; // Adicionado o ID
+    id: number; 
     nome: string;
     valorGuardar: number;
 }
@@ -52,6 +55,8 @@ export function Estatisticas() {
     const [metasFuturas, setMetasFuturas] = useState<MetaFutura[]>([]);
     const [saldoTotal, setSaldoTotal] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -119,51 +124,17 @@ export function Estatisticas() {
         }
     };
 
-    const handleDeletarLancamentos = async () => {
-        const userInfo = getUserIdFromToken();
-        if (userInfo) {
-            try {
-                await deleteLancamentosFinanceirosByLogin(userInfo.userId);
-                alert("Lançamentos financeiros deletados com sucesso!");
-                // Recarregar ou atualizar a lista de lançamentos financeiros
-                setLancamentos([]);
-            } catch (error) {
-                console.error("Erro ao deletar lançamentos financeiros:", error);
-                alert("Erro ao deletar lançamentos financeiros.");
-            }
-        } else {
-            console.error("Usuário não está logado ou token inválido");
-        }
-    };
-    
-    const handleDeletarMetasFuturas = async () => {
-        const userInfo = getUserIdFromToken();
-        if (userInfo) {
-            try {
-                await deleteMetasFuturasByLogin(userInfo.userId);
-                alert("Metas futuras deletadas com sucesso!");
-                // Recarregar ou atualizar a lista de metas futuras
-                setMetasFuturas([]);
-            } catch (error) {
-                console.error("Erro ao deletar metas futuras:", error);
-                alert("Erro ao deletar metas futuras.");
-            }
-        } else {
-            console.error("Usuário não está logado ou token inválido");
-        }
-    };
-
-
-
 
     const handleEditarLancamento = (id: number) => {
         console.log("Editar Lançamento ID:", id);
         // Redirecionar para a página de edição ou abrir modal
+        navigate(`/editar-lancamento/${id}`);
     };
     
     const handleEditarMeta = (id: number) => {
         console.log("Editar Meta ID:", id);
         // Redirecionar para a página de edição ou abrir modal
+        navigate(`/editar-meta/${id}`);
     };
 
     const handleDeletarLancamento = async (id: number) => {
@@ -226,14 +197,6 @@ export function Estatisticas() {
                                 <p>Carregando...</p>
                             ) : receitas.length > 0 ? (
                                 <ul>
-                                    {/* {receitas.map((lancamento, index) => (
-                                        <li key={index}>
-                                            <strong>{lancamento.nome}</strong>: <br />
-                                            {lancamento.descricao} <br />
-                                            R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
-                                            {formatarDataAgendamento(lancamento)}
-                                        </li>
-                                    ))} */}
 
                                         {receitas.map((lancamento) => (
                                                 <li key={lancamento.id}>
@@ -268,14 +231,6 @@ export function Estatisticas() {
                                 <p>Carregando...</p>
                             ) : despesas.length > 0 ? (
                                 <ul>
-                                    {/* {despesas.map((lancamento, index) => (
-                                        <li key={index}>
-                                            <strong>{lancamento.nome}</strong>: <br />
-                                            {lancamento.descricao} <br />
-                                            R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
-                                            {formatarDataAgendamento(lancamento)}
-                                        </li>
-                                    ))} */}
 
                                     {despesas.map((lancamento) => (
                                             <li key={lancamento.id}>
@@ -311,12 +266,6 @@ export function Estatisticas() {
                             <p>Carregando...</p>
                         ) : metasFuturas.length > 0 ? (
                             <ul>
-                                {/* {metasFuturas.map((meta, index) => (
-                                    <li key={index}>
-                                        <strong>{meta.nome}</strong> <br/>
-                                        R${meta.valorGuardar.toFixed(2)}
-                                    </li>
-                                ))} */}
 
                                 {metasFuturas.map((meta) => (
                                         <li key={meta.id}>
@@ -351,14 +300,7 @@ export function Estatisticas() {
                                 Saldo Total: R${saldoTotal.toFixed(2)}
                             </span>
                         )}
-                        <div className="botao-container">
-                            <button className="deletar-btn" onClick={handleDeletarLancamentos}>
-                                Deletar Lançamentos
-                            </button>
-                            <button className="deletar-btn" onClick={handleDeletarMetasFuturas}>
-                                Deletar Metas
-                            </button>
-                        </div>
+                        
                     </div>
 
 

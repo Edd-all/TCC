@@ -66,7 +66,19 @@ export const getMetaFuturaByLoginAndId = async (login: string, id: number) => {
     }
 };
 
-export const updateMetaFuturaByLoginAndId = async (
+
+export const deleteMetaFuturaByLoginAndId = async (login: string, id: number) => {
+    try {
+        const response = await axiosInstance.delete(`/metasFuturas/deletarPorLoginEId/${id}?login=${login}`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao deletar a Meta por login e ID", error);
+        throw error;
+    }
+};
+
+
+export const updateMetaFutura = async (
     login: string,
     id: number,
     metaFuturaData: {
@@ -82,16 +94,6 @@ export const updateMetaFuturaByLoginAndId = async (
         return response.data;
     } catch (error) {
         console.error("Erro ao atualizar a Meta por login e ID", error);
-        throw error;
-    }
-};
-
-export const deleteMetaFuturaByLoginAndId = async (login: string, id: number) => {
-    try {
-        const response = await axiosInstance.delete(`/metasFuturas/deletarPorLoginEId/${id}?login=${login}`);
-        return response.data;
-    } catch (error) {
-        console.error("Erro ao deletar a Meta por login e ID", error);
         throw error;
     }
 };
