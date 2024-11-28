@@ -69,3 +69,26 @@ body, html {
     line-height: 1.6;
     text-align: center;
 }
+
+
+/* Estilo para o select de prioridade, similar ao tipo de agendamento */
+.prioridade-select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    width: 100%; /* Garante que o select ocupe todo o espaço disponível */
+    cursor: pointer;
+}
+
+.prioridade-select:focus {
+    border-color: #4CAF50; /* Muda a borda para verde quando em foco */
+}
+
+.prioridade-select option {
+    background-color: #fff;
+    color: #333;
+}

@@ -9,6 +9,7 @@ import { postMetaFutura } from '../../service/metasFuturas';
 export function MetasFuturas() {
     const [nome, setNome] = useState('')
     const [valorGuardar, setValorGuardar] =  useState(0);
+    const [prioridade, setPrioridade] = useState('')
 
 
     const handleAddMeta = async (e: React.FormEvent) => {
@@ -26,6 +27,7 @@ export function MetasFuturas() {
         const metaFuturaData = {
             nome,
             valorGuardar,
+            prioridade,
             usuario: userInfo ? userInfo.userId : ""
         };
 
@@ -63,7 +65,19 @@ export function MetasFuturas() {
                         onChange={(e) => setValorGuardar(Number(e.target.value))}
                         required
                     />
-                    
+
+                    <label htmlFor="prioridade">Prioridade</label>
+                    <select 
+                            id="prioridade" 
+                            value={prioridade} 
+                            onChange={(e) => setPrioridade(e.target.value)}
+                            className="prioridade-select"
+                        >
+                            <option value="">Selecione...</option>
+                            <option value="A">Alta</option>
+                            <option value="M">Media</option>
+                            <option value="B">Baixa</option>
+                        </select>
                     <button type="submit" className="submit-btn">Adicionar Meta</button>
                 </form>
             </div>

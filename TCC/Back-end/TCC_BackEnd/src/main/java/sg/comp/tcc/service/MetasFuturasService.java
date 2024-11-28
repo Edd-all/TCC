@@ -72,6 +72,7 @@ public class MetasFuturasService {
 		MetasFuturas metas = new MetasFuturas(
 				metasFuturasRequestDTO.getNome(),
 				metasFuturasRequestDTO.getValorGuardar(),
+				metasFuturasRequestDTO.getPrioridade(),
 				usuario
 		);
 			
@@ -87,6 +88,7 @@ public class MetasFuturasService {
 			MetasFuturas metasFuturas = new MetasFuturas(
 					metasFuturasRequestDTO.getNome(),
 					metasFuturasRequestDTO.getValorGuardar(),
+					metasFuturasRequestDTO.getPrioridade(),
 					usuario
 			);
 			metasFuturas.setId(id);
@@ -136,6 +138,7 @@ public class MetasFuturasService {
 	    Usuario usuario = usuarioService.buscarPorLogin(login);
 	    meta.setNome(metasFuturasRequestDTO.getNome());
 	    meta.setValorGuardar(metasFuturasRequestDTO.getValorGuardar());
+	    meta.setPrioridade(metasFuturasRequestDTO.getPrioridade());
 	    meta.setUsuario(usuario);
 
 	    return new MetasFuturasResponseDTO(repository.save(meta));

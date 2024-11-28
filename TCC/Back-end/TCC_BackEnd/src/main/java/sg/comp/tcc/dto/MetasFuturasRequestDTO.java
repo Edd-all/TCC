@@ -2,6 +2,7 @@ package sg.comp.tcc.dto;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import sg.comp.tcc.enums.EnumPrioridadeMeta;
 
 
 public class MetasFuturasRequestDTO {
@@ -10,6 +11,7 @@ public class MetasFuturasRequestDTO {
 	@NotBlank
 	private String nome;
 	private Double valorGuardar;
+	private EnumPrioridadeMeta prioridade;
 	private String usuario;
 	
 	public Long getId() {
@@ -30,6 +32,15 @@ public class MetasFuturasRequestDTO {
 	public void setValorGuardar(Double valorGuardar) {
 		this.valorGuardar = valorGuardar;
 	}
+	
+	
+	public EnumPrioridadeMeta getPrioridade() {
+		return prioridade;
+	}
+	public void setPrioridade(EnumPrioridadeMeta prioridade) {
+		this.prioridade = prioridade;
+	}
+	
 	public String getUsuario() {
 		return usuario;
 	}

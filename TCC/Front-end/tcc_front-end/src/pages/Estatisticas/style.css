@@ -122,3 +122,21 @@
 .deletar-btn:hover {
     background-color: #ef4444; /* Vermelho mais claro no hover */
 }
+
+.meta-item {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.meta-item.prioridade-a {
+    background-color: #b2e7b6; 
+}
+
+.meta-item.prioridade-m {
+    background-color: #b6d9f3; 
+}
+
+.meta-item.prioridade-b {
+    background-color: #ebc1c7; 
+}

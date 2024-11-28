@@ -33,6 +33,7 @@ interface MetaFutura {
     id: number; 
     nome: string;
     valorGuardar: number;
+    prioridade: string;
 }
 
 const diasDaSemanaMapeados: { [key: string]: string } = {
@@ -48,6 +49,12 @@ const diasDaSemanaMapeados: { [key: string]: string } = {
 const tipoLancamentoMapeado: { [key: string]: string } = {
     "R": "Receita",
     "D": "Despesa"
+};
+
+const tipoPrioridadeMapeada: { [key: string]: string } = {
+    "A": "Alta",
+    "M": "Media",
+    "B": "Baixa"
 };
 
 export function Estatisticas() {
@@ -268,9 +275,12 @@ export function Estatisticas() {
                             <ul>
 
                                 {metasFuturas.map((meta) => (
-                                        <li key={meta.id}>
+
+                                        <li key={meta.id} className={`meta-item prioridade-${meta.prioridade.toLowerCase()}`} >
+
                                             <strong>{meta.nome}</strong>: <br />
                                             R${meta.valorGuardar.toFixed(2)} <br />
+                                            Prioridade: {tipoPrioridadeMapeada[meta.prioridade]} <br />
                                             <button
                                                 className="editar-btn"
                                                 onClick={() => handleEditarMeta(meta.id)}

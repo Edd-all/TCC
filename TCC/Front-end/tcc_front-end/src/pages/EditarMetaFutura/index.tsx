@@ -12,6 +12,7 @@ export default function EditarMetaFutura() {
 
   const [nome, setNome] = useState('');
   const [valorGuardar, setValorGuardar] = useState(0);
+  const [prioridade, setPrioridade] = useState('')
 
   useEffect(() => {
     const fetchMeta = async () => {
@@ -20,6 +21,7 @@ export default function EditarMetaFutura() {
         const meta = await getMetaFuturaByLoginAndId(login, parseInt(id));
         setNome(meta.nome);
         setValorGuardar(meta.valorGuardar);
+        setPrioridade(meta.prioridade);
       }
     };
     fetchMeta();
@@ -29,7 +31,7 @@ export default function EditarMetaFutura() {
     e.preventDefault();
     const login = getUserLoginFromToken();
     if (login) {
-      const updatedMeta = { id, nome, valorGuardar };
+      const updatedMeta = { id, nome, valorGuardar, prioridade };
       
       await updateMetaFutura(login, id, updatedMeta);
       alert('Meta atualizada com sucesso!');
@@ -61,6 +63,19 @@ export default function EditarMetaFutura() {
             onChange={(e) => setValorGuardar(Number(e.target.value))}
             required
           />
+
+          <label htmlFor="prioridade">Prioridade</label>
+          <select
+            id="prioridade"
+            value={prioridade}
+            onChange={(e) => setPrioridade(e.target.value)}
+            className="prioridade-select"
+            required
+          >
+            <option value="A">Alta</option>
+            <option value="M">Media</option>
+            <option value="B">Baixa</option>
+          </select>        
           
           <button type="submit" className="submit-btn">Salvar Alterações</button>
         </form>

@@ -56,7 +56,7 @@ body, html {
 }
 
 .edit-lancamento-form textarea {
-    resize: none; /* Desativa o redimensionamento manual */
+    resize: none; 
     height: 100px;
 }
 
