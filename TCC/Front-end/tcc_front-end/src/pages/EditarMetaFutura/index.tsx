@@ -73,7 +73,7 @@ export default function EditarMetaFutura() {
             required
           >
             <option value="A">Alta</option>
-            <option value="M">Media</option>
+            <option value="M">Média</option>
             <option value="B">Baixa</option>
           </select>        
           

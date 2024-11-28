@@ -75,7 +75,7 @@ export function MetasFuturas() {
                         >
                             <option value="">Selecione...</option>
                             <option value="A">Alta</option>
-                            <option value="M">Media</option>
+                            <option value="M">Média</option>
                             <option value="B">Baixa</option>
                         </select>
                     <button type="submit" className="submit-btn">Adicionar Meta</button>

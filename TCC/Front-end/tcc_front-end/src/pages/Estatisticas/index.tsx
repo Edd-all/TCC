@@ -53,7 +53,7 @@ const tipoLancamentoMapeado: { [key: string]: string } = {
 
 const tipoPrioridadeMapeada: { [key: string]: string } = {
     "A": "Alta",
-    "M": "Media",
+    "M": "Média",
     "B": "Baixa"
 };
 
@@ -304,6 +304,8 @@ export function Estatisticas() {
                         <button className="calcular-saldo-btn" onClick={calcularSaldoTotal}>
                             Calcular Saldo Total
                         </button>
+                        <br/>
+                        <br/>
                         {saldoTotal !== null && saldoTotal !== undefined && (
                             <span className="saldo-total">
                                 

@@ -21,7 +21,7 @@
 }
 
 .metas-futuras {
-    background-color: #e3f2fd;
+    background-color: #bde2fc;
     padding: 16px;
     border-radius: 8px;
     width: 100%;
@@ -29,11 +29,11 @@
 }
 
 .receitas {
-    background-color: #e8f5e9;
+    background-color: #aff0b4;
 }
 
 .despesas {
-    background-color: #ffebee;
+    background-color: #eba7b1;
 }
 
 .calcular-saldo-btn {
@@ -130,13 +130,13 @@
 }
 
 .meta-item.prioridade-a {
-    background-color: #b2e7b6; 
+    background-color: #54dc1eee; 
 }
 
 .meta-item.prioridade-m {
-    background-color: #b6d9f3; 
+    background-color: #6ccf4ee8; 
 }
 
 .meta-item.prioridade-b {
-    background-color: #ebc1c7; 
+    background-color: #65a555c7; 
 }
