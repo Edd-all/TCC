@@ -140,3 +140,22 @@
 .meta-item.prioridade-b {
     background-color: #65a555c7; 
 }
+
+
+.saldo-total {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.saldo-total.positivo {
+    background-color: rgb(67, 255, 67); /* Cor verde */
+    
+}
+
+.saldo-total.negativo {
+    background-color: rgb(248, 76, 76); /* Cor vermelha */
+
+}

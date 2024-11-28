@@ -307,7 +307,7 @@ export function Estatisticas() {
                         <br/>
                         <br/>
                         {saldoTotal !== null && saldoTotal !== undefined && (
-                            <span className="saldo-total">
+                            <span className={`saldo-total ${saldoTotal > 0 ? 'positivo' : saldoTotal < 0 ? 'negativo' : ''}`}>
                                 
                                 Saldo Total: R${saldoTotal.toFixed(2)}
                             </span>
