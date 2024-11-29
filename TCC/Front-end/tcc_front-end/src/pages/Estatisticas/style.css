@@ -159,3 +159,34 @@
     background-color: rgb(248, 76, 76); /* Cor vermelha */
 
 }
+
+.receitas, .despesas, .metas-futuras {
+    flex: 1;
+    padding: 16px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    height: 300px; /* Defina uma altura fixa */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical */
+    border: 1px solid #ccc; /* Opcional: adicione uma borda para separar visualmente */
+   
+}
+
+.metas-futuras {
+    background-color: #bde2fc;
+    padding: 16px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 400px; /* Limita a altura da seção */
+    overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Remove os marcadores da lista */
+}
+
+li {
+    margin-bottom: 8px; /* Espaçamento entre os itens */
+}
