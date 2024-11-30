@@ -190,3 +190,34 @@ ul {
 li {
     margin-bottom: 8px; /* Espaçamento entre os itens */
 }
+
+.filtro-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+.filtro-container select,
+.filtro-container input {
+    margin: 0 8px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filtro-container button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filtro-container button:hover {
+    background-color: #0056b3;
+}

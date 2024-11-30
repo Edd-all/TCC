@@ -14,6 +14,8 @@ import { deleteMetaFuturaByLoginAndId } from '../../service/metasFuturas';
 
 import { useNavigate } from 'react-router-dom';
 
+import React, { ChangeEvent } from 'react';
+
 
 interface LancamentoFinanceiro {
     id: number; 
@@ -63,6 +65,10 @@ export function Estatisticas() {
     const [saldoTotal, setSaldoTotal] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
 
+        const [filtro, setFiltro] = useState<string>(''); // Define o tipo de filtro: 'data', 'diaSemana', 'diaMes'
+        const [valorFiltro, setValorFiltro] = useState<string | number | Date>(''); // Valor do filtro selecionado
+        const [lancamentosFiltrados, setLancamentosFiltrados] = useState<LancamentoFinanceiro[]>([]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -92,7 +98,8 @@ export function Estatisticas() {
 
     const formatarDataAgendamento = (lancamento: LancamentoFinanceiro) => {
         if (lancamento.tipoAgendamento === 'D' && lancamento.diaEspecifico) {
-            return `Data específica: ${new Date(lancamento.diaEspecifico).toLocaleDateString()}`;
+            const dataFormatada = new Date(lancamento.diaEspecifico + 'T00:00:00').toLocaleDateString();
+            return `Data específica: ${dataFormatada}`;
         } else if (lancamento.tipoAgendamento === 'S' && lancamento.diaSemana) {
             const diaSemanaNome = diasDaSemanaMapeados[lancamento.diaSemana.dayOfWeek] || "Dia da semana desconhecido";
             return `Dia da semana: ${diaSemanaNome}`;
@@ -189,13 +196,105 @@ export function Estatisticas() {
 
 
 
-    const receitas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "R");
-    const despesas = lancamentos.filter(lancamento => lancamento.tipoLancamento === "D");
+    const aplicarFiltro = () => {
+    if (!filtro || !valorFiltro) {
+        setLancamentosFiltrados([]);
+        return;
+    }
+
+    // Filtra os lançamentos com base no tipo de filtro selecionado
+    const resultadosFiltrados = lancamentos.filter((lancamento) => {
+        if (filtro === 'data' && lancamento.diaEspecifico) {
+            return (
+                new Date(lancamento.diaEspecifico).toLocaleDateString() ===
+                new Date(valorFiltro).toLocaleDateString()
+            );
+        } else if (filtro === 'diaSemana' && lancamento.diaSemana) {
+            return lancamento.diaSemana.dayOfWeek === valorFiltro;
+        } else if (filtro === 'diaMes') {
+            return lancamento.diaMes === Number(valorFiltro);
+        }
+        return false;
+    });
+
+    // Reorganiza os lançamentos: os que atendem ao filtro vão para o início
+    const organizados = [
+        ...resultadosFiltrados,
+        ...lancamentos.filter((lancamento) => !resultadosFiltrados.includes(lancamento)),
+    ];
+
+    setLancamentosFiltrados(organizados);
+};
+
+// Dados para exibição: usa os filtrados ou o original
+const dadosParaExibir = lancamentosFiltrados.length > 0 ? lancamentosFiltrados : lancamentos;
+
+// Define receitas e despesas com base nos dados filtrados
+const receitas = dadosParaExibir.filter(
+    (lancamento) => lancamento.tipoLancamento === 'R'
+);
+const despesas = dadosParaExibir.filter(
+    (lancamento) => lancamento.tipoLancamento === 'D'
+);
+    
+    // Função para atualizar o valor do filtro
+    const handleFiltroChange = (event: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+        setFiltro(event.target.value);
+        setValorFiltro('');
+    };
+    
+    // Atualiza o valor do filtro
+    const handleValorFiltroChange = (event: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+        setValorFiltro(event.target.value);
+    };
+
 
     return (
         <div className="home-container">
             <Navbar />
             <div className="content">
+                
+                        <div className="filtro-container">
+                <label htmlFor="filtro">Filtrar por:</label>
+                <select id="filtro" value={filtro} onChange={handleFiltroChange}>
+                    <option value="">Selecione</option>
+                    <option value="data">Data específica</option>
+                    <option value="diaSemana">Dia da Semana</option>
+                    <option value="diaMes">Dia do Mês</option>
+                </select>
+
+                {filtro === 'data' && (
+                    <input
+                        type="date"
+                        value={valorFiltro as string}
+                        onChange={handleValorFiltroChange}
+                    />
+                )}
+
+                {filtro === 'diaSemana' && (
+                    <select value={valorFiltro as string} onChange={handleValorFiltroChange}>
+                        {Object.entries(diasDaSemanaMapeados).map(([key, value]) => (
+                            <option key={key} value={key}>
+                                {value}
+                            </option>
+                        ))}
+                    </select>
+                )}
+
+                {filtro === 'diaMes' && (
+                    <input
+                        type="number"
+                        min="1"
+                        max="31"
+                        value={valorFiltro as number}
+                        onChange={handleValorFiltroChange}
+                    />
+                )}
+
+                <button onClick={aplicarFiltro}>Aplicar Filtro</button>
+        </div>
+
+            
                 <div className="lancamentos-container">
                     <div className="top-row">
                         <div className="receitas">
@@ -203,29 +302,28 @@ export function Estatisticas() {
                             {loading ? (
                                 <p>Carregando...</p>
                             ) : receitas.length > 0 ? (
+
                                 <ul>
-
-                                        {receitas.map((lancamento) => (
-                                                <li key={lancamento.id}>
-                                                    <strong>{lancamento.nome}</strong>: <br />
-                                                    {lancamento.descricao} <br />
-                                                    R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
-                                                    {formatarDataAgendamento(lancamento)} <br />
-                                                    <button
-                                                        className="editar-btn"
-                                                        onClick={() => handleEditarLancamento(lancamento.id)}
-                                                    >
-                                                        Editar
-                                                    </button>
-                                                    <button
-                                                        className="deletar-btn"
-                                                        onClick={() => handleDeletarLancamento(lancamento.id)}
-                                                    >
-                                                        Deletar
-                                                    </button>
-                                                </li>
-                                            ))}
-
+                                    {receitas.map((lancamento) => (
+                                        <li key={lancamento.id}>
+                                            <strong>{lancamento.nome}</strong>: <br />
+                                            {lancamento.descricao} <br />
+                                            R${lancamento.valor.toFixed(2)} ({tipoLancamentoMapeado[lancamento.tipoLancamento]}) <br />
+                                            {formatarDataAgendamento(lancamento)} <br />
+                                            <button
+                                                className="editar-btn"
+                                                onClick={() => handleEditarLancamento(lancamento.id)}
+                                            >
+                                                Editar
+                                            </button>
+                                            <button
+                                                className="deletar-btn"
+                                                onClick={() => handleDeletarLancamento(lancamento.id)}
+                                            >
+                                                Deletar
+                                            </button>
+                                        </li>
+                                    ))}
                                 </ul>
                             ) : (
                                 <p>Não há receitas para exibir.</p>
@@ -237,9 +335,9 @@ export function Estatisticas() {
                             {loading ? (
                                 <p>Carregando...</p>
                             ) : despesas.length > 0 ? (
-                                <ul>
 
-                                    {despesas.map((lancamento) => (
+                                <ul>
+                                        {despesas.map((lancamento) => (
                                             <li key={lancamento.id}>
                                                 <strong>{lancamento.nome}</strong>: <br />
                                                 {lancamento.descricao} <br />
@@ -259,8 +357,7 @@ export function Estatisticas() {
                                                 </button>
                                             </li>
                                         ))}
-
-                                </ul>
+                                    </ul>
                             ) : (
                                 <p>Não há despesas para exibir.</p>
                             )}
