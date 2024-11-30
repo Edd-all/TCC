@@ -39,6 +39,7 @@ interface MetaFutura {
 }
 
 const diasDaSemanaMapeados: { [key: string]: string } = {
+    "null": "Selecione",
     "MONDAY": "Segunda-feira",
     "TUESDAY": "Terça-feira",
     "WEDNESDAY": "Quarta-feira",
@@ -197,34 +198,42 @@ export function Estatisticas() {
 
 
     const aplicarFiltro = () => {
-    if (!filtro || !valorFiltro) {
-        setLancamentosFiltrados([]);
-        return;
-    }
-
-    // Filtra os lançamentos com base no tipo de filtro selecionado
-    const resultadosFiltrados = lancamentos.filter((lancamento) => {
-        if (filtro === 'data' && lancamento.diaEspecifico) {
-            return (
-                new Date(lancamento.diaEspecifico).toLocaleDateString() ===
-                new Date(valorFiltro).toLocaleDateString()
-            );
-        } else if (filtro === 'diaSemana' && lancamento.diaSemana) {
-            return lancamento.diaSemana.dayOfWeek === valorFiltro;
-        } else if (filtro === 'diaMes') {
-            return lancamento.diaMes === Number(valorFiltro);
+        if (!filtro) {
+            // Sem filtro, mostrar todos os lançamentos
+            setLancamentosFiltrados([]);
+            return;
         }
-        return false;
-    });
-
-    // Reorganiza os lançamentos: os que atendem ao filtro vão para o início
-    const organizados = [
-        ...resultadosFiltrados,
-        ...lancamentos.filter((lancamento) => !resultadosFiltrados.includes(lancamento)),
-    ];
-
-    setLancamentosFiltrados(organizados);
-};
+    
+        // Filtra os lançamentos com base no tipo de filtro selecionado
+        const resultadosFiltrados = lancamentos.filter((lancamento) => {
+            if (filtro === 'data') {
+                // Filtro por data específica
+                return valorFiltro && lancamento.diaEspecifico
+                    ? new Date(lancamento.diaEspecifico).toLocaleDateString() ===
+                      new Date(valorFiltro).toLocaleDateString()
+                    : lancamento.tipoAgendamento === 'D'; // Apenas tipo
+            } else if (filtro === 'diaSemana') {
+                // Filtro por dia da semana
+                return valorFiltro && lancamento.diaSemana
+                    ? lancamento.diaSemana.dayOfWeek === valorFiltro
+                    : lancamento.tipoAgendamento === 'S'; // Apenas tipo
+            } else if (filtro === 'diaMes') {
+                // Filtro por dia do mês
+                return valorFiltro
+                    ? lancamento.diaMes === Number(valorFiltro)
+                    : lancamento.tipoAgendamento === 'M'; // Apenas tipo
+            }
+            return false;
+        });
+    
+        // Reorganiza os lançamentos: os que atendem ao filtro vão para o início
+        const organizados = [
+            ...resultadosFiltrados,
+            ...lancamentos.filter((lancamento) => !resultadosFiltrados.includes(lancamento)),
+        ];
+    
+        setLancamentosFiltrados(organizados);
+    };
 
 // Dados para exibição: usa os filtrados ou o original
 const dadosParaExibir = lancamentosFiltrados.length > 0 ? lancamentosFiltrados : lancamentos;
