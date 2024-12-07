@@ -24,15 +24,15 @@ body, html {
     max-width: 50%; /* A descrição ocupa metade da tela */
 }
 
+.description {
+    max-width: 50%;
+    text-align: center; /* Centraliza o texto dentro do container */
+}
+
 .description h1 {
     font-size: 2.5em;
     color: #333;
-}
-
-.description p {
-    font-size: 1.2em;
-    color: #555;
-    line-height: 1.6;
+    margin: 0 auto; /* Garante que o margin não esteja desalinhado */
 }
 
 .image-container {

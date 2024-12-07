@@ -70,6 +70,9 @@ export function Estatisticas() {
         const [valorFiltro, setValorFiltro] = useState<string | number | Date>(''); // Valor do filtro selecionado
         const [lancamentosFiltrados, setLancamentosFiltrados] = useState<LancamentoFinanceiro[]>([]);
 
+        //const [dataInicio, setDataInicio] = useState<Date | null>(null);
+        //const [dataFim, setDataFim] = useState<Date | null>(null);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -199,32 +202,46 @@ export function Estatisticas() {
 
     const aplicarFiltro = () => {
         if (!filtro) {
-            // Sem filtro, mostrar todos os lançamentos
             setLancamentosFiltrados([]);
             return;
         }
     
-        // Filtra os lançamentos com base no tipo de filtro selecionado
         const resultadosFiltrados = lancamentos.filter((lancamento) => {
             if (filtro === 'data') {
-                // Filtro por data específica
                 return valorFiltro && lancamento.diaEspecifico
                     ? new Date(lancamento.diaEspecifico).toLocaleDateString() ===
                       new Date(valorFiltro).toLocaleDateString()
-                    : lancamento.tipoAgendamento === 'D'; // Apenas tipo
+                    : lancamento.tipoAgendamento === 'D';
             } else if (filtro === 'diaSemana') {
-                // Filtro por dia da semana
                 return valorFiltro && lancamento.diaSemana
                     ? lancamento.diaSemana.dayOfWeek === valorFiltro
-                    : lancamento.tipoAgendamento === 'S'; // Apenas tipo
+                    : lancamento.tipoAgendamento === 'S';
             } else if (filtro === 'diaMes') {
-                // Filtro por dia do mês
                 return valorFiltro
                     ? lancamento.diaMes === Number(valorFiltro)
-                    : lancamento.tipoAgendamento === 'M'; // Apenas tipo
+                    : lancamento.tipoAgendamento === 'M';
+            } else if (filtro === 'periodo') {
+                
+                const [dataInicio, dataFim] = valorFiltro as [string, string];
+                return (
+                    lancamento.diaEspecifico &&
+                    new Date(lancamento.diaEspecifico) >= new Date(dataInicio) &&
+                    new Date(lancamento.diaEspecifico) <= new Date(dataFim)
+                );
             }
             return false;
         });
+    
+        if (filtro === 'periodo') {
+            // Ordena os lançamentos filtrados pela proximidade da data de início
+            const [dataInicio] = valorFiltro as [string, string];
+            resultadosFiltrados.sort((a, b) => {
+                const dataA = new Date(a.diaEspecifico).getTime();
+                const dataB = new Date(b.diaEspecifico).getTime();
+                const inicio = new Date(dataInicio).getTime();
+                return Math.abs(dataA - inicio) - Math.abs(dataB - inicio);
+            });
+        }
     
         // Reorganiza os lançamentos: os que atendem ao filtro vão para o início
         const organizados = [
@@ -234,6 +251,7 @@ export function Estatisticas() {
     
         setLancamentosFiltrados(organizados);
     };
+    
 
 // Dados para exibição: usa os filtrados ou o original
 const dadosParaExibir = lancamentosFiltrados.length > 0 ? lancamentosFiltrados : lancamentos;
@@ -270,6 +288,7 @@ const despesas = dadosParaExibir.filter(
                     <option value="data">Data específica</option>
                     <option value="diaSemana">Dia da Semana</option>
                     <option value="diaMes">Dia do Mês</option>
+                    <option value="periodo">Período</option>
                 </select>
 
                 {filtro === 'data' && (
@@ -299,6 +318,32 @@ const despesas = dadosParaExibir.filter(
                         onChange={handleValorFiltroChange}
                     />
                 )}
+
+                    {filtro === 'periodo' && (
+                        <div>
+                            <label htmlFor="dataInicio">Data Início:</label>
+                            <input
+                                id="dataInicio"
+                                type="date"
+                                value={(valorFiltro as [string, string])[0] || ''}
+                                onChange={(e) => {
+                                    const [inicio, fim] = valorFiltro as [string, string];
+                                    setValorFiltro([e.target.value, fim]);
+                                }}
+                            />
+
+                            <label htmlFor="dataFim">Data Fim:</label>
+                            <input
+                                id="dataFim"
+                                type="date"
+                                value={(valorFiltro as [string, string])[1] || ''}
+                                onChange={(e) => {
+                                    const [inicio, fim] = valorFiltro as [string, string];
+                                    setValorFiltro([inicio, e.target.value]);
+                                }}
+                            />
+                        </div>
+                    )}
 
                 <button onClick={aplicarFiltro}>Aplicar Filtro</button>
         </div>
